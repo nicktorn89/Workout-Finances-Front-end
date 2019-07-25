@@ -2,7 +2,7 @@
   Workout Finances Front-end
 </h1>
 
-## Installing and starting и старт
+## Installing and starting
 
 1.  **Install** <br/>
   `npm i`
