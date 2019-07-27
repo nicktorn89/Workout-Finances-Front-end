@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Modal /> Should be equal to snapshot 1`] = `
+<WithStyles(Modal)
+  aria-describedby="modal-description"
+  aria-labelledby="modal-title"
+  className="modal-window"
+  open={true}
+>
+  <styled.div>
+    <Styled(WithStyles(Typography))
+      id="modal-title"
+      variant="h6"
+    />
+    <styled.div />
+    <styled.div>
+      <Styled(WithStyles(Button))
+        className="modal-cancel"
+        color="secondary"
+        onClick={[Function]}
+        variant="contained"
+      >
+        Отмена
+      </Styled(WithStyles(Button))>
+    </styled.div>
+  </styled.div>
+</WithStyles(Modal)>
+`;

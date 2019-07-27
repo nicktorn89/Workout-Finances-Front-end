@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Slider /> Should be equal to snapshot 1`] = `
+<Styled(WithStyles(Paper))>
+  <Styled(WithStyles(Table))>
+    <WithStyles(TableHead)>
+      <WithStyles(TableRow)>
+        <WithStyles(TableCell) />
+        <WithStyles(TableCell)
+          className="table-head-cell"
+        >
+          Дата
+        </WithStyles(TableCell)>
+        <WithStyles(TableCell)
+          className="table-head-cell"
+        >
+          Кол-во человек
+        </WithStyles(TableCell)>
+        <WithStyles(TableCell)
+          className="table-head-cell"
+        >
+          Прибыль
+        </WithStyles(TableCell)>
+        <WithStyles(TableCell)
+          className="table-head-cell"
+        >
+          Бесплатная
+        </WithStyles(TableCell)>
+        <WithStyles(TableCell)
+          className="table-head-cell"
+        >
+          Персональная
+        </WithStyles(TableCell)>
+        <WithStyles(TableCell)
+          className="table-head-cell"
+        >
+          Джампы
+        </WithStyles(TableCell)>
+      </WithStyles(TableRow)>
+    </WithStyles(TableHead)>
+    <WithStyles(TableBody) />
+  </Styled(WithStyles(Table))>
+</Styled(WithStyles(Paper))>
+`;
