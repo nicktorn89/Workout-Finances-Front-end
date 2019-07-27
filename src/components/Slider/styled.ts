@@ -12,7 +12,9 @@ export const SliderContainer = styled.div`
 `;
 
 export const DateTitle: any = styled(Typography)`
-  margin: 0 2rem !important;
-  font-size: 18px !important;
-  font-weight: 700 !important;
+  &&& {
+    margin: 0 2rem;
+    font-size: 18px;
+    font-weight: 700;
+  }
 `;

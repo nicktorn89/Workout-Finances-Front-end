@@ -15,23 +15,35 @@ export const ModalContainer = styled.div`
   z-index: 1;
   border-radius: 5px;
 
-  ${media.phone`width: 95%`}
-  ${media.tablet`width: 95%`}
-  ${media.desktop`width: 40rem`}
+  ${media.phone`
+    width: 95%
+  `}
+
+  ${media.tablet`
+    width: 95%
+  `}
+  
+  ${media.desktop`
+    width: 40rem
+  `}
 `;
 
 export const ModalHeader: any = styled(Typography)`
-  font-size: 16px !important;
-  height: 10%;
-  border-bottom: 1px solid grey;
+  &&& {
+    font-size: 16px;
+    height: 10%;
+    border-bottom: 1px solid gray;
+  }
 `;
 
 export const ModalContent = styled.div`
-  display: flex;
-  flex-wrap: wrap !important;
-  justify-content: center;
-  align-items: center;
-  height: 70%;
+  &&& {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    height: 70%;
+  }
 `;
 
 export const ModalFooter = styled.div`
@@ -42,10 +54,14 @@ export const ModalFooter = styled.div`
 `;
 
 export const OkButton: any = styled(Button)`
-  margin-right: 1rem !important;
-  font-size: 1.2rem !important;
+  &&& {
+    margin-right: 1rem;
+    font-size: 1.2rem;
+  }
 `;
 
 export const CancelButton: any = styled(Button)`
-  font-size: 1.2rem !important;
+  &&& {
+    font-size: 1.2rem;
+  }
 `;
