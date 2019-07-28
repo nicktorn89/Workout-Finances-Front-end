@@ -6,45 +6,42 @@ import {
   ModalFooter, OkButton, CancelButton,
 } from './styled';
 
-const Modal: React.FC<ModalProps> = ({ isActive, onCancel, onOk, children, title }) => {
-  return (
-    <ModalComponent
-      aria-labelledby='modal-title'
-      aria-describedby='modal-description'
-      className='modal-window'
-      open={isActive}
-    >
-      <ModalContainer>
-        <ModalHeader variant='h6' id='modal-title'>
-          {title && title}
-        </ModalHeader>
-        <ModalContent>
-          {children}
-        </ModalContent>
-        <ModalFooter>
-          { onOk &&
-            <OkButton 
-              color='primary'
-              variant='contained'
-              className='modal-ok'
-              onClick={onOk}
-            >
-              Ок
-            </OkButton>
-          }
-          
-          <CancelButton 
-            color='secondary'
+const Modal: React.FC<ModalProps> = ({ isActive, onCancel, onOk, children, title }) => 
+  <ModalComponent
+    aria-labelledby='modal-title'
+    aria-describedby='modal-description'
+    className='modal-window'
+    open={isActive}
+  >
+    <ModalContainer>
+      <ModalHeader variant='h6' id='modal-title'>
+        {title && title}
+      </ModalHeader>
+      <ModalContent>
+        {children}
+      </ModalContent>
+      <ModalFooter>
+        {onOk &&
+          <OkButton
+            color='primary'
             variant='contained'
-            className='modal-cancel'
-            onClick={onCancel} 
+            className='modal-ok'
+            onClick={onOk}
           >
-           Отмена
-          </CancelButton>
-        </ModalFooter>
-      </ModalContainer>
-    </ModalComponent>
-  );
-};
+            Ок
+          </OkButton>
+        }
+
+        <CancelButton
+          color='secondary'
+          variant='contained'
+          className='modal-cancel'
+          onClick={onCancel}
+        >
+          Отмена
+        </CancelButton>
+      </ModalFooter>
+    </ModalContainer>
+  </ModalComponent>;
 
 export default memo(Modal);

@@ -14,13 +14,13 @@ export interface MainState {
 
 export interface MainProps {
   workoutsArray?: WorkoutObject[];
+  currentPart?: 'first' | 'second';
+  currentMonth?: number;
+  currentYear?: number;
   fetchWorkouts?: typeof fetchWorkouts;
   createWorkout?: typeof createWorkout;
   removeWorkout?: typeof removeWorkout;
   changePart?: typeof changePart;
-  currentPart?: 'first' | 'second';
-  currentMonth?: number;
-  currentYear?: number;
 }
 
 export interface TimeObject {
@@ -31,3 +31,9 @@ export interface TimeObject {
     };
   };
 }
+
+export type ChangedMonth = {
+  currentPart: 'first' | 'second',
+  currentMonth: number;
+  currentYear: number;
+};

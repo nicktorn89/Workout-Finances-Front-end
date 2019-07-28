@@ -1,9 +1,10 @@
 import React, { memo } from 'react';
-import { TableProps } from './types';
-import { TableBody, TableHead, TableCell, TableRow } from '@material-ui/core';
-import Done from '@material-ui/icons/Done';
-import Checkbox from '@material-ui/core/Checkbox';
 import moment from 'moment';
+
+import { TableProps } from './types';
+
+import { TableBody, TableHead, TableCell, TableRow, Checkbox } from '@material-ui/core';
+import Done from '@material-ui/icons/Done';
 import { MaterialTable, MaterialPaper } from './styled';
 
 let id = 0;
