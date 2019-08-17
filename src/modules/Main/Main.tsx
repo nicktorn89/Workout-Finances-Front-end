@@ -59,8 +59,8 @@ class Main extends React.PureComponent<MainProps, MainState> {
       isPersonal,
       isFree,
       isJumps,
+      peopleCount,
       date: moment().toDate(),
-      people: peopleCount,
       price: countWorkout(peopleCount, isPersonal, isFree, isJumps),
     };
 
@@ -104,6 +104,10 @@ class Main extends React.PureComponent<MainProps, MainState> {
     this.props.changePart && this.props.changePart(isIncrement);
   }
 
+  public handleEdit = () => {
+
+  }
+
   public render = () => {
     const { activeModal, isPersonal, isFree, isJumps, workouts } = this.state;
     const { currentPart, currentMonth, currentYear } = this.props;
@@ -130,6 +134,7 @@ class Main extends React.PureComponent<MainProps, MainState> {
 
         <Table
           onCheckboxChange={this.pickIndexesToRemove}
+          onEdit={this.handleEdit}
           data={workouts!} 
         />
 
@@ -140,7 +145,7 @@ class Main extends React.PureComponent<MainProps, MainState> {
 
         {workouts && 
           <SumTitle>Общая заработная плата: 
-            <SumNumber>{getWorkoutsPriceSum(workouts)}₽</SumNumber>
+            <SumNumber>{getWorkoutsPriceSum(workouts)} &#8381;</SumNumber>
           </SumTitle>
         }
 

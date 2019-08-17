@@ -1,18 +1,24 @@
 import styled from 'styled-components';
-import { Table, Paper } from '@material-ui/core';
+import { Table, Paper, TableCell } from '@material-ui/core';
 import { media } from 'src/theme/mixin';
 
 // @ts-nocheck
+export const TableHeadCell: any = styled(TableCell)`
+  &&& {
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+`;
+
+export const TableBodyCell: any = styled(TableCell)`
+  &&& {
+    font-size: 1rem;
+  }
+`;
+
 export const MaterialTable: any = styled(Table)`
   &&& {
     width: 80%;
-    .table-head-cell {
-      font-size: 1.25rem;
-    }
-  
-    .table-body-cell {
-      font-size: 1rem;
-    }
   
     ${media.phone`
       width: 90%;

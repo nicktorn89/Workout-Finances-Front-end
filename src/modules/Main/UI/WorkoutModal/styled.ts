@@ -7,24 +7,28 @@ export const PeopleNumberInput: any = styled(TextField)`
     padding: 0 1rem 0 0;
     div {
       font-size: 1.5rem;
-    
-      input {
-        text-align: center;
+
+      &::before {
+        border-bottom: 1px solid #80808045;
       }
+    }
+
+    div input {
+      text-align: center;
     }
   }
 `;
 
 export const PeopleNumberLabel = styled.label`
-width: 30%;
-text-align: center;
-font-size: 1.4rem;
-font-family: 'Lato', sans-serif;
-margin-top: 10px;
+  width: 30%;
+  text-align: center;
+  font-size: 1.4rem;
+  font-family: 'Lato', sans-serif;
+  margin-top: 10px;
 `;
 
 export const SwitchLabel = styled.label`
-width: 100%;
-font-size: 1.4rem;
-font-family: 'Lato', sans-serif;
+  width: 100%;
+  font-size: 1.4rem;
+  font-family: 'Lato', sans-serif;
 `;
