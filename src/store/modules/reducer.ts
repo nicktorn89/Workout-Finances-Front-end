@@ -30,7 +30,7 @@ reducer
     (state, payload) => {
       const { currentYear, currentMonth, currentPart } = state;
       const allWorkouts = {
-        workoutsByTime: divideMonth((payload as { workouts: WorkoutObject[] }).workouts),
+        workoutsByTime: divideMonth((payload as WorkoutObject[])),
       };
       const currentWorkouts = { workouts: allWorkouts.workoutsByTime[currentYear][currentMonth][currentPart] };
 
@@ -62,7 +62,7 @@ reducer
       const { currentYear, currentMonth, currentPart } = initialState;
 
       const allWorkouts = {
-        workoutsByTime: divideMonth((payload as { workouts: WorkoutObject[] }).workouts),
+        workoutsByTime: divideMonth((payload as WorkoutObject[])),
       };
       const currentWorkouts = { workouts: allWorkouts.workoutsByTime[currentYear][currentMonth][currentPart] };
 
@@ -96,7 +96,7 @@ reducer
     (state, payload) => {
       const { currentYear, currentMonth, currentPart } = state;
       const allWorkouts = {
-        workoutsByTime: divideMonth((payload as { workouts: WorkoutObject[] }).workouts),
+        workoutsByTime: divideMonth((payload as WorkoutObject[])),
       };
       const currentWorkouts = { workouts: allWorkouts.workoutsByTime[currentYear][currentMonth][currentPart] };
 

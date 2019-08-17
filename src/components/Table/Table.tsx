@@ -3,33 +3,39 @@ import moment from 'moment';
 
 import { TableProps } from './types';
 
-import { TableBody, TableHead, TableCell, TableRow, Checkbox } from '@material-ui/core';
+import { TableBody, TableHead, TableRow, Checkbox } from '@material-ui/core';
 import Done from '@material-ui/icons/Done';
-import { MaterialTable, MaterialPaper } from './styled';
+import Edit from '@material-ui/icons/Edit';
+import { MaterialTable, MaterialPaper, TableHeadCell, TableBodyCell } from './styled';
 
 let id = 0;
 
-function createData(date: Date, people: number, salary: number,
+function createData(date: Date, peopleCount: number, salary: number,
   isFree: boolean, isPersonal: boolean, isJumps: boolean) {
   id += 1;
-  return { id, date, people, salary, isFree, isPersonal, isJumps };
+  return { id, date, peopleCount, salary, isFree, isPersonal, isJumps };
 }
 
-const Table: React.FC<TableProps> = ({ data, onCheckboxChange }) => {
-  const rows = data.map((k) => createData(k.date, k.people, k.price, k.isFree, k.isPersonal, k.isJumps));
+const Table: React.FC<TableProps> = ({ data, onCheckboxChange, onEdit }) => {
+  const rows = data.map((row) => createData(row.date, row.peopleCount, row.price, row.isFree, row.isPersonal, row.isJumps));
+
+  const handleEdit = (e: React.MouseEvent<HTMLElement, MouseEvent>): void => {
+    onEdit(e);
+  };
 
   return (
     <MaterialPaper>
       <MaterialTable>
         <TableHead>
           <TableRow>
-            <TableCell />
-            <TableCell className='table-head-cell'>Дата</TableCell>
-            <TableCell className='table-head-cell'>Кол-во человек</TableCell>
-            <TableCell className='table-head-cell'>Прибыль</TableCell>
-            <TableCell className='table-head-cell'>Бесплатная</TableCell>
-            <TableCell className='table-head-cell'>Персональная</TableCell>
-            <TableCell className='table-head-cell'>Джампы</TableCell>
+            <TableHeadCell />
+            <TableHeadCell>Изменить</TableHeadCell>
+            <TableHeadCell>Дата</TableHeadCell>
+            <TableHeadCell>Кол-во человек</TableHeadCell>
+            <TableHeadCell>Прибыль</TableHeadCell>
+            <TableHeadCell>Бесплатная</TableHeadCell>
+            <TableHeadCell>Персональная</TableHeadCell>
+            <TableHeadCell>Джампы</TableHeadCell>
           </TableRow>
         </TableHead>
 
@@ -47,50 +53,48 @@ const Table: React.FC<TableProps> = ({ data, onCheckboxChange }) => {
 
             return (
               <TableRow key={row.id}>
-                <TableCell className='table-body-cell'>
+                <TableBodyCell>
                   <Checkbox
                     name={`${index}`}
                     onClick={onCheckboxChange}
                   />
-                </TableCell>
-                <TableCell
-                  className='table-body-cell'
+                </TableBodyCell>
+                <TableBodyCell onClick={handleEdit}>
+                  <Edit />
+                </TableBodyCell>
+                <TableBodyCell
                   component='th'
                   scope='row'
                 >
                   {`${moment(row.date).date()}.${rowMonth}.${moment(row.date).year()} 
                 ${rowHour}:${rowMinute}`}
-                </TableCell>
-                <TableCell
+                </TableBodyCell>
+                <TableBodyCell
                   className='table-body-cell'
                   align='left'
                 >
-                  {row.people}
-                </TableCell>
-                <TableCell
-                  className='table-body-cell'
+                  {row.peopleCount}
+                </TableBodyCell>
+                <TableBodyCell
                   align='left'
                 >
                   {row.salary}
-                </TableCell>
-                <TableCell
-                  className='table-body-cell'
+                </TableBodyCell>
+                <TableBodyCell
                   align='left'
                 >
                   {row.isFree && <Done />}
-                </TableCell>
-                <TableCell
-                  className='table-body-cell'
+                </TableBodyCell>
+                <TableBodyCell
                   align='left'
                 >
                   {row.isPersonal && <Done />}
-                </TableCell>
-                <TableCell
-                  className='table-body-cell'
+                </TableBodyCell>
+                <TableBodyCell
                   align='left'
                 >
                   {row.isJumps && <Done />}
-                </TableCell>
+                </TableBodyCell>
               </TableRow>
             );
           })}

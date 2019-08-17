@@ -3,7 +3,7 @@ import { WorkoutObject } from 'src/store/modules/types';
 const workoutsMock = [
   { 
     date: new Date,
-    people: 0,
+    peopleCount: 0,
     price: 100,
     isPersonal: false,
     isJumps: false,
@@ -12,7 +12,7 @@ const workoutsMock = [
   },
   { 
     date: new Date,
-    people: 0,
+    peopleCount: 0,
     price: 100,
     isPersonal: false,
     isJumps: false,
@@ -21,7 +21,7 @@ const workoutsMock = [
   },
   { 
     date: new Date,
-    people: 0,
+    peopleCount: 0,
     price: 100,
     isPersonal: false,
     isJumps: false,
@@ -30,7 +30,7 @@ const workoutsMock = [
   },
   { 
     date: new Date,
-    people: 0,
+    peopleCount: 0,
     price: 200,
     isPersonal: false,
     isJumps: false,

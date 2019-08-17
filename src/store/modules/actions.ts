@@ -17,7 +17,7 @@ export const createWorkout = createAction(
   'createWorkout',
   (workoutData) => {
     return Service
-      .path('/workouts/addWorkout')
+      .path('/workouts')
       .post(workoutData as Data);
   },
 );
@@ -26,7 +26,7 @@ export const removeWorkout = createAction(
   'removeWorkout',
   (workouts: QueryObject) => {
     return Service
-      .path('/workouts/removeWorkout')
+      .path('/workouts/remove')
       .post(workouts);
   },
 );

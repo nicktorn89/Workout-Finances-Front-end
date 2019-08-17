@@ -10,7 +10,7 @@ export interface MainStore {
 
 export type WorkoutObject = {
   date: Date;
-  people: number;
+  peopleCount: number;
   price: number;
   isPersonal: boolean;
   isJumps: boolean;

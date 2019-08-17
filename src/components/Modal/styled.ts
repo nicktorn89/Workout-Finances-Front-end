@@ -32,7 +32,7 @@ export const ModalHeader: any = styled(Typography)`
   &&& {
     font-size: 16px;
     height: 10%;
-    border-bottom: 1px solid gray;
+    border-bottom: 1px solid #80808045;
   }
 `;
 
