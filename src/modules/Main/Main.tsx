@@ -1,7 +1,7 @@
 import React, { ChangeEvent, MouseEvent as ReactMouseEvent } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { fetchWorkouts, createWorkout, removeWorkout, changePart } from 'src/store/modules/actions';
+import { fetchWorkouts, createWorkout, removeWorkout, editWorkout, changePart } from 'src/store/modules/actions';
 
 import { countWorkout, getIdFromIndexes, getWorkoutsPriceSum, divideMonth } from './utils';
 
@@ -24,15 +24,22 @@ class Main extends React.PureComponent<MainProps, MainState> {
     peopleCount: 0,
     workouts: [],
     indexesToRemove: [],
+    operationType: 'create',
+    editingWorkoutId: null,
   };
 
   public componentDidMount = () => {
-    this.props.fetchWorkouts && this.props.fetchWorkouts();
-    this.props.workoutsArray && this.setState({ workouts: this.props.workoutsArray });
+    const { fetchWorkouts, workoutsArray: workouts } = this.props;
+
+    fetchWorkouts && fetchWorkouts();
+
+    workouts && this.setState({ workouts });
   }
 
   public componentDidUpdate = (prevProps: MainProps) => {
-    prevProps.workoutsArray !== this.props.workoutsArray && this.setState({ workouts: this.props.workoutsArray });
+    if (prevProps.workoutsArray !== this.props.workoutsArray) {
+      this.setState({ workouts: this.props.workoutsArray });
+    }
   }
 
   public pickIndexesToRemove = (e: ReactMouseEvent<HTMLElement, MouseEvent>) => {
@@ -49,11 +56,26 @@ class Main extends React.PureComponent<MainProps, MainState> {
   }
 
   public toggleModal = () => {
-    this.setState({ activeModal: !this.state.activeModal });
+    this.setState((state) => {
+      return { activeModal: !state.activeModal };
+    });
+
     this.setDefaultValues();
   }
 
+  public toggleWithData = (id: string) => {
+    const workoutForEdit = this.state.workouts.filter(({ _id: workoutId }) => workoutId === id)[0];
+
+    this.setState({ 
+      ...workoutForEdit as Object, 
+      activeModal: !this.state.activeModal, 
+      editingWorkoutId: id,
+      operationType: 'editing',
+    });
+  }
+
   public createWorkout = () => {
+    const { createWorkout } = this.props;
     const { peopleCount, isPersonal, isFree, isJumps } = this.state;
     const workoutObject = {
       isPersonal,
@@ -64,7 +86,27 @@ class Main extends React.PureComponent<MainProps, MainState> {
       price: countWorkout(peopleCount, isPersonal, isFree, isJumps),
     };
 
-    this.props.createWorkout && this.props.createWorkout(workoutObject);
+    createWorkout && createWorkout(workoutObject);
+
+    this.toggleModal();
+  }
+  
+  public editWorkout = () => {
+    const { editWorkout } = this.props;
+    const { peopleCount, isPersonal, isFree, isJumps, editingWorkoutId } = this.state;
+    const workoutObject = {
+      isPersonal,
+      isFree,
+      isJumps,
+      peopleCount,
+      date: moment().toDate(),
+      _id: editingWorkoutId,
+      price: countWorkout(peopleCount, isPersonal, isFree, isJumps),
+    };
+
+    editWorkout && editWorkout(workoutObject);
+
+    this.setState({ operationType: 'create' });
 
     this.toggleModal();
   }
@@ -83,7 +125,7 @@ class Main extends React.PureComponent<MainProps, MainState> {
         isFree: false,
         isJumps: false,
         isPersonal: false,
-        peopleCount: 0,
+        peopleCount: 1,
       },
     );
   }
@@ -104,12 +146,12 @@ class Main extends React.PureComponent<MainProps, MainState> {
     this.props.changePart && this.props.changePart(isIncrement);
   }
 
-  public handleEdit = () => {
-
+  public handleEdit = (id: string) => {
+    this.toggleWithData(id);
   }
 
   public render = () => {
-    const { activeModal, isPersonal, isFree, isJumps, workouts } = this.state;
+    const { activeModal, isPersonal, isFree, isJumps, workouts, peopleCount, operationType } = this.state;
     const { currentPart, currentMonth, currentYear } = this.props;
     
     workouts && divideMonth(workouts);
@@ -145,16 +187,16 @@ class Main extends React.PureComponent<MainProps, MainState> {
 
         {workouts && 
           <SumTitle>Общая заработная плата: 
-            <SumNumber>{getWorkoutsPriceSum(workouts)} &#8381;</SumNumber>
+            <SumNumber as='span'>{getWorkoutsPriceSum(workouts)} &#8381;</SumNumber>
           </SumTitle>
         }
 
-        <WorkoutModal 
+        <WorkoutModal
           isActive={activeModal}
           title='Создание записи о тренировке'
-          values={{ isPersonal, isFree, isJumps }}
+          values={{ isPersonal, isFree, isJumps, peopleCount }}
           onCancel={this.toggleModal}
-          onOk={this.createWorkout}        
+          onOk={operationType === 'create' ? this.createWorkout : this.editWorkout}        
           onChangeValue={this.changePeopleCount}
           onChangeSwitch={this.handleSwitch}
         />
@@ -166,6 +208,7 @@ const mapDispatchToProps = {
   fetchWorkouts,
   createWorkout,
   removeWorkout,
+  editWorkout,
   changePart,
 };
 

@@ -16,7 +16,6 @@ const WorkoutModal: React.FC<WorkoutModalProps> = ({
       <PeopleNumberLabel>Кол-во человек</PeopleNumberLabel>
       <PeopleNumberInput
         id='people-number'
-        defaultValue={''}
         min={1}
         max={Infinity}
         type='number'
@@ -24,6 +23,7 @@ const WorkoutModal: React.FC<WorkoutModalProps> = ({
           shrink: true,
         }}
         margin='normal'
+        value={values.peopleCount as number}
         onChange={onChangeValue}
       />
 
@@ -32,7 +32,7 @@ const WorkoutModal: React.FC<WorkoutModalProps> = ({
           name='isPersonal'
           onChange={onChangeSwitch}
           color='primary'
-          checked={values.isPersonal}
+          checked={values.isPersonal as boolean}
         />
         Персональная тренировка
       </SwitchLabel>
@@ -40,7 +40,7 @@ const WorkoutModal: React.FC<WorkoutModalProps> = ({
         <Switch
           name='isFree'
           onChange={onChangeSwitch}
-          checked={values.isFree}
+          checked={values.isFree as boolean}
         />
         Бесплатная тренировка
       </SwitchLabel>
@@ -49,7 +49,7 @@ const WorkoutModal: React.FC<WorkoutModalProps> = ({
           name='isJumps'
           onChange={onChangeSwitch}
           color='primary'
-          checked={values.isJumps}
+          checked={values.isJumps as boolean}
         />
         Тренировка на джампах
       </SwitchLabel>
