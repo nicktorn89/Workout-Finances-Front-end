@@ -13,6 +13,14 @@ export const countWorkout = (peopleCount: number, personal?: boolean, free?: boo
   return peopleCount * 30;
 };
 
+export const createData = ({ date, peopleCount, price: salary, isFree, isPersonal, isJumps, _id }: WorkoutObject) => {
+  let id = 0;
+
+  id += 1;
+
+  return { id, date, peopleCount, salary, isFree, isPersonal, isJumps, dataId: _id };
+};
+
 export const getIdFromIndexes = (indexes: number[], workouts: WorkoutObject[]): string[] => 
   [...indexes].map((index) => workouts[index]._id as string);
 

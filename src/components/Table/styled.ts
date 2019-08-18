@@ -18,6 +18,11 @@ export const TableBodyCell: any = styled(TableCell)`
 
 export const MaterialTable: any = styled(Table)`
   &&& {
+    .date-column {
+      text-align: center;
+      line-height: 1.5;
+    }
+
     width: 80%;
   
     ${media.phone`

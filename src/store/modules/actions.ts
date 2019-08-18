@@ -22,6 +22,15 @@ export const createWorkout = createAction(
   },
 );
 
+export const editWorkout = createAction(
+  'editWorkout',
+  (workoutData) => {
+    return Service
+      .path('/workouts')
+      .put(workoutData as Data);
+  },
+);
+
 export const removeWorkout = createAction(
   'removeWorkout',
   (workouts: QueryObject) => {
