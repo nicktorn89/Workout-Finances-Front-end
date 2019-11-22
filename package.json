@@ -12,6 +12,7 @@
     "start-dev": "webpack-dev-server --config=configs/webpack/dev.js",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "start-prod": "npm run build && node express.js",
+    "serve": "node express.js",
     "precommit": "npm run lint:ts && npm run lint:css",
     "test": "jest",
     "watch-test": "jest --watch",
