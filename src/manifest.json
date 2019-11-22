@@ -1,11 +1,12 @@
 {
-  "name": "Workout Finances PWA",
-  "short_name": "WF",
-  "icons": [{
-    "src": "icons/icon-128x128.png",
+  "background_color": "#bfe8e3",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "icons/icon-128x128.png",
       "sizes": "128x128",
       "type": "image/png"
-    }, 
+    },
     {
       "src": "icons/icon-256x256.png",
       "sizes": "256x256",
@@ -17,8 +18,9 @@
       "type": "image/png"
     }
   ],
+  "main.js": "index.min.js",
+  "name": "Workout Finances PWA",
+  "short_name": "WF",
   "start_url": "/index.html",
-  "display": "standalone",
-  "background_color": "#bfe8e3",
   "theme_color": "#bfe8e3"
 }

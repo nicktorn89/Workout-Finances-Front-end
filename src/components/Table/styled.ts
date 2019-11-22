@@ -1,5 +1,7 @@
 import styled from 'styled-components';
-import { Table, Paper, TableCell } from '@material-ui/core';
+import Table from '@material-ui/core/Table';
+import Paper from '@material-ui/core/Paper';
+import TableCell from '@material-ui/core/TableCell';
 import { media } from 'src/theme/mixin';
 
 // @ts-nocheck

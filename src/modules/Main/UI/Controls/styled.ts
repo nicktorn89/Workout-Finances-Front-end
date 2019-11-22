@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Button } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 
 export const ButtonsContainer = styled.div`
   width: 100%;
