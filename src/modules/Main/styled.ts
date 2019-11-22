@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { Typography, AppBar } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
+import AppBar from '@material-ui/core/AppBar';
 import { media } from 'src/theme/mixin';
 
 // @ts-nocheck

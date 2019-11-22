@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { Typography, Button } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import { media } from 'src/theme/mixin';
 
 // @ts-nocheck
