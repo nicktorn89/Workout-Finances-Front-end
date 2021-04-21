@@ -5,3 +5,9 @@ node_js:
 branches:
   only:
   - develop
+
+deploy:
+  provider: surge
+  cleanup: false
+  on:
+    all_branches: true

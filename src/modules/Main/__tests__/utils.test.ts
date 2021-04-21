@@ -39,19 +39,19 @@ const workoutsMock = [
   },
 ];
 
-test('should return 120, 30 rubles for each workout', () => {
-  expect(countWorkout(4)).toBe(120);
+test('should return 140, 35 rubles for each workout', () => {
+  expect(countWorkout(4)).toBe(140);
 });
 
 test('should return 0 if workout is free', () => {
   expect(countWorkout(30, false, true)).toBe(0);
 });
 
-test('should return workout*90', () => {
-  expect(countWorkout(20, true)).toBe(1800);
+test('should return workout * 100', () => {
+  expect(countWorkout(20, true)).toBe(2000);
 });
 
-test('should return workout*50 for Jumps', () => {
+test('should return workout * 50 for Jumps', () => {
   expect(countWorkout(20, false, false, true)).toBe(1000);
 });
 
