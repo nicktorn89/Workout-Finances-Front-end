@@ -4,14 +4,11 @@ import { Circle } from 'react-preloaders';
 
 const Main = lazy(() => import('./modules/Main'));
 
-function routes() {
-  return (
-    <Router>
-      <Suspense fallback={<Circle />}>
-        <Route exact={true} path='/' component={Main} />
-      </Suspense>
-    </Router>
-  );
-}
+const routes: React.FC<{}> = () => 
+  <Router>
+    <Suspense fallback={<Circle />}>
+      <Route exact={true} path='/' component={Main} />
+    </Suspense>
+  </Router>;
 
 export default routes;

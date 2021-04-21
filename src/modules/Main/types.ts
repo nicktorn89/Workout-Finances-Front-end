@@ -1,26 +1,33 @@
 import { WorkoutObject } from 'src/store/modules/types';
-import { fetchWorkouts, createWorkout, removeWorkout, changePart } from 'src/store/modules/actions';
+import { fetchWorkouts, createWorkout, removeWorkout, changePart, editWorkout } from 'src/store/modules/actions';
 
 export interface MainState {
   activeModal: boolean;
+  operationType: string;
+
   peopleCount: number;
   isFree: boolean;
   isJumps: boolean;
   isPersonal: boolean;
+
   indexesToRemove: number[];
   workouts?: WorkoutObject[];
-  [name: string]: boolean | number | number[] | WorkoutObject[] | undefined;
+  editingWorkoutId: null | string;
+
+  [name: string]: boolean | number | null | string | number[] | WorkoutObject[] | undefined;
 }
 
 export interface MainProps {
   workoutsArray?: WorkoutObject[];
-  fetchWorkouts?: typeof fetchWorkouts;
-  createWorkout?: typeof createWorkout;
-  removeWorkout?: typeof removeWorkout;
-  changePart?: typeof changePart;
   currentPart?: 'first' | 'second';
   currentMonth?: number;
   currentYear?: number;
+
+  fetchWorkouts?: typeof fetchWorkouts;
+  createWorkout?: typeof createWorkout;
+  removeWorkout?: typeof removeWorkout;
+  editWorkout?: typeof editWorkout;
+  changePart?: typeof changePart;
 }
 
 export interface TimeObject {
@@ -31,3 +38,9 @@ export interface TimeObject {
     };
   };
 }
+
+export type ChangedMonth = {
+  currentPart: 'first' | 'second',
+  currentMonth: number;
+  currentYear: number;
+};

@@ -1,7 +1,7 @@
 import { createReducer } from '@gostgroup/redux-modus';
 
 import { MainStore, WorkoutObject } from './types';
-import { fetchWorkouts, createWorkout, removeWorkout, changePart } from './actions';
+import { fetchWorkouts, createWorkout, removeWorkout, changePart, editWorkout } from './actions';
 import { onFetching, onError, onSuccess } from 'src/store/utils';
 import moment from 'moment';
 import { divideMonth, changeMonthPart } from 'src/modules/Main/utils';
@@ -30,7 +30,7 @@ reducer
     (state, payload) => {
       const { currentYear, currentMonth, currentPart } = state;
       const allWorkouts = {
-        workoutsByTime: divideMonth((payload as { workouts: WorkoutObject[] }).workouts),
+        workoutsByTime: divideMonth((payload as WorkoutObject[])),
       };
       const currentWorkouts = { workouts: allWorkouts.workoutsByTime[currentYear][currentMonth][currentPart] };
 
@@ -62,7 +62,7 @@ reducer
       const { currentYear, currentMonth, currentPart } = initialState;
 
       const allWorkouts = {
-        workoutsByTime: divideMonth((payload as { workouts: WorkoutObject[] }).workouts),
+        workoutsByTime: divideMonth((payload as WorkoutObject[])),
       };
       const currentWorkouts = { workouts: allWorkouts.workoutsByTime[currentYear][currentMonth][currentPart] };
 
@@ -85,7 +85,35 @@ reducer
       error: 'Ошибка при создании тренировки',
     }),
   ).on(
-    (onFetching(removeWorkout)),
+    (onSuccess(editWorkout)),
+    (state, payload) => {
+      const { currentYear, currentMonth, currentPart } = initialState;
+
+      const allWorkouts = {
+        workoutsByTime: divideMonth((payload as WorkoutObject[])),
+      };
+      const currentWorkouts = { workouts: allWorkouts.workoutsByTime[currentYear][currentMonth][currentPart] };
+
+      return {
+        ...state,
+        ...currentWorkouts,
+        ...allWorkouts,
+        currentYear,
+        currentMonth,
+        currentPart,
+        isLoading: false,
+        isLoaded: true,
+      };
+    },
+  ).on(
+    (onError(editWorkout)),
+    (state) => ({
+      ...state,
+      isLoading: true,
+      error: 'Ошибка при создании тренировки',
+    }),
+  ).on(
+    (onFetching(editWorkout)),
     (state) => ({
       ...state,
       error: '',
@@ -96,7 +124,7 @@ reducer
     (state, payload) => {
       const { currentYear, currentMonth, currentPart } = state;
       const allWorkouts = {
-        workoutsByTime: divideMonth((payload as { workouts: WorkoutObject[] }).workouts),
+        workoutsByTime: divideMonth((payload as WorkoutObject[])),
       };
       const currentWorkouts = { workouts: allWorkouts.workoutsByTime[currentYear][currentMonth][currentPart] };
 

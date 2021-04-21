@@ -1,35 +1,39 @@
 import React, { ChangeEvent, MouseEvent as ReactMouseEvent } from 'react';
 import { connect } from 'react-redux';
-import { fetchWorkouts, createWorkout, removeWorkout, changePart } from 'src/store/modules/actions';
+import moment from 'moment';
+import { fetchWorkouts, createWorkout, removeWorkout, editWorkout, changePart } from 'src/store/modules/actions';
+
+import { countWorkout, getIdFromIndexes, getWorkoutsPriceSum, divideMonth } from './utils';
+
+import { RootStore } from 'src/store/types';
 import { MainState, MainProps } from './types';
+
+import { WorkoutModal, Controls } from './UI';
+import { Table, Slider } from 'src/components';
 import {
   MainHeader, HeaderTitle, MainContainer,
-  AddWorkout, ButtonsContainer, PeopleNumberInput,
-  PeopleNumberLabel, SwitchLabel, RemoveWorkout, SumNumber, SumTitle,
+  SumNumber, SumTitle,
 } from './styled';
-import Switch from '@material-ui/core/Switch';
-import moment from 'moment';
 
-import Table from 'src/components/Table';
-import Slider from 'src/components/Slider';
-import Modal from 'src/components/Modal';
-import { countWorkout, getIdFromIndexes, getWorkoutsPriceSum, divideMonth } from './utils';
-import { RootStore } from 'src/store/types';
-
-class Main extends React.Component<MainProps, MainState> {
+class Main extends React.PureComponent<MainProps, MainState> {
   public readonly state = {
     activeModal: false,
     isPersonal: false,
     isFree: false,
     isJumps: false,
     peopleCount: 0,
-    workouts: this.props.workoutsArray,
+    workouts: [],
     indexesToRemove: [],
+    operationType: 'create',
+    editingWorkoutId: null,
   };
 
   public componentDidMount = () => {
-    const { fetchWorkouts } = this.props;
+    const { fetchWorkouts, workoutsArray: workouts } = this.props;
+
     fetchWorkouts && fetchWorkouts();
+
+    workouts && this.setState({ workouts });
   }
 
   public componentDidUpdate = (prevProps: MainProps) => {
@@ -38,40 +42,71 @@ class Main extends React.Component<MainProps, MainState> {
     }
   }
 
-  public addIndexes = (e: ReactMouseEvent<HTMLElement, MouseEvent>) => {
-    let newIndexes: number[] = [...this.state.indexesToRemove];
-    const elementIndex = +(e.target as HTMLInputElement).name;
+  public pickIndexesToRemove = (e: ReactMouseEvent<HTMLElement, MouseEvent>) => {
+    let removableIndexes: number[] = [...this.state.indexesToRemove];
+    const { checked: switchChecked, name: elementIndex } = (e.target as HTMLInputElement);
 
-    if ((e.target as HTMLInputElement).checked) {
-      newIndexes.push(elementIndex);
+    if (switchChecked) {
+      removableIndexes.push(+elementIndex);
     } else {
-      newIndexes = newIndexes.filter((index) => index !== elementIndex);
+      removableIndexes = removableIndexes.filter((index) => index !== +elementIndex);
     }
 
-    this.setState({ indexesToRemove: newIndexes });
+    this.setState({ indexesToRemove: removableIndexes });
   }
 
   public toggleModal = () => {
-    const { activeModal } = this.state;
+    this.setState((state) => {
+      return { activeModal: !state.activeModal };
+    });
 
-    this.setState({ activeModal: !activeModal });
     this.setDefaultValues();
   }
 
-  public createWorkout = () => {
-    const { peopleCount, isPersonal, isFree, isJumps } = this.state;
-    const { createWorkout } = this.props;
+  public toggleWithData = (id: string) => {
+    const workoutForEdit = this.state.workouts.filter(({ _id: workoutId }) => workoutId === id)[0];
 
+    this.setState({ 
+      ...workoutForEdit as Object, 
+      activeModal: !this.state.activeModal, 
+      editingWorkoutId: id,
+      operationType: 'editing',
+    });
+  }
+
+  public createWorkout = () => {
+    const { createWorkout } = this.props;
+    const { peopleCount, isPersonal, isFree, isJumps } = this.state;
     const workoutObject = {
       isPersonal,
       isFree,
       isJumps,
+      peopleCount,
       date: moment().toDate(),
-      people: peopleCount,
       price: countWorkout(peopleCount, isPersonal, isFree, isJumps),
     };
 
     createWorkout && createWorkout(workoutObject);
+
+    this.toggleModal();
+  }
+  
+  public editWorkout = () => {
+    const { editWorkout } = this.props;
+    const { peopleCount, isPersonal, isFree, isJumps, editingWorkoutId } = this.state;
+    const workoutObject = {
+      isPersonal,
+      isFree,
+      isJumps,
+      peopleCount,
+      date: moment().toDate(),
+      _id: editingWorkoutId,
+      price: countWorkout(peopleCount, isPersonal, isFree, isJumps),
+    };
+
+    editWorkout && editWorkout(workoutObject);
+
+    this.setState({ operationType: 'create' });
 
     this.toggleModal();
   }
@@ -80,9 +115,7 @@ class Main extends React.Component<MainProps, MainState> {
     const { removeWorkout } = this.props;
     const { indexesToRemove, workouts } = this.state;
 
-    const idArray = getIdFromIndexes(indexesToRemove, workouts!);
-
-    removeWorkout && removeWorkout({ idArray });
+    workouts && removeWorkout && removeWorkout({ idArray: getIdFromIndexes(indexesToRemove, workouts) });
     this.setState({ indexesToRemove: [] });
   }
 
@@ -92,7 +125,7 @@ class Main extends React.Component<MainProps, MainState> {
         isFree: false,
         isJumps: false,
         isPersonal: false,
-        peopleCount: 0,
+        peopleCount: 1,
       },
     );
   }
@@ -102,21 +135,26 @@ class Main extends React.Component<MainProps, MainState> {
     this.setState({ peopleCount: Number(value) });
   }
 
-  public handleSwitch = (e: ChangeEvent<HTMLInputElement>, checked: boolean) => {
-    const { name } = (e.target as HTMLInputElement);
-    const switches = ['isPersonal', 'isFree', 'isJumps'].filter((k) => k !== name);
+  public handleSwitch = (e: ChangeEvent<HTMLInputElement>, isChecked: boolean) => {
+    const { name: switchName } = (e.target as HTMLInputElement);
+    const switches = ['isPersonal', 'isFree', 'isJumps'].filter((switchInArray) => switchInArray !== switchName);
 
-    this.setState({ [name]: checked, [`${switches[0]}`]: false, [`${switches[1]}`]: false });
+    this.setState({ [switchName]: isChecked, [`${switches[0]}`]: false, [`${switches[1]}`]: false });
   }
 
   public handleSliderChange = (isIncrement: boolean) => (): void => {
     this.props.changePart && this.props.changePart(isIncrement);
   }
 
+  public handleEdit = (id: string) => {
+    this.toggleWithData(id);
+  }
+
   public render = () => {
-    const { activeModal, isPersonal, isFree, isJumps, workouts } = this.state;
-    const { currentPart, currentMonth, currentYear, changePart } = this.props;
-    divideMonth(workouts!);
+    const { activeModal, isPersonal, isFree, isJumps, workouts, peopleCount, operationType } = this.state;
+    const { currentPart, currentMonth, currentYear } = this.props;
+    
+    workouts && divideMonth(workouts);
 
     return (
       <MainContainer>
@@ -137,81 +175,31 @@ class Main extends React.Component<MainProps, MainState> {
         />
 
         <Table
-          onCheckboxChange={this.addIndexes}
+          onCheckboxChange={this.pickIndexesToRemove}
+          onEdit={this.handleEdit}
           data={workouts!} 
         />
 
-        <ButtonsContainer>
-          <AddWorkout
-            color='primary'
-            variant='contained'
-            onClick={this.toggleModal}
-          >
-            Добавить тренировку
-          </ AddWorkout>
-          
-          <RemoveWorkout
-            color='secondary'
-            variant='contained'
-            onClick={this.removeWorkout}
-          >
-            Удалить тренировку
-          </ RemoveWorkout>
-        </ButtonsContainer>
+        <Controls 
+          removeWorkout={this.removeWorkout}
+          toggleModal={this.toggleModal}
+        />
 
         {workouts && 
           <SumTitle>Общая заработная плата: 
-            <SumNumber>{getWorkoutsPriceSum(workouts)}₽</SumNumber>
+            <SumNumber as='span'>{getWorkoutsPriceSum(workouts)} &#8381;</SumNumber>
           </SumTitle>
         }
 
-        <Modal
+        <WorkoutModal
           isActive={activeModal}
           title='Создание записи о тренировке'
+          values={{ isPersonal, isFree, isJumps, peopleCount }}
           onCancel={this.toggleModal}
-          onOk={this.createWorkout}
-        >
-          <PeopleNumberLabel>Кол-во человек</PeopleNumberLabel>
-          <PeopleNumberInput
-            id='people-number'
-            defaultValue={''}
-            min={1}
-            max={Infinity}
-            type='number'
-            InputLabelProps={{
-              shrink: true,
-            }}
-            margin='normal'
-            onChange={this.changePeopleCount}
-          />
-
-          <SwitchLabel>
-            <Switch
-              name='isPersonal'
-              onChange={this.handleSwitch}
-              color='primary'
-              checked={isPersonal}
-            />
-            Персональная тренировка
-          </SwitchLabel>
-          <SwitchLabel>
-            <Switch
-              name='isFree'
-              onChange={this.handleSwitch}
-              checked={isFree}
-            />
-            Бесплатная тренировка
-          </SwitchLabel>
-          <SwitchLabel>
-            <Switch
-              name='isJumps'
-              onChange={this.handleSwitch}
-              color='primary'
-              checked={isJumps}
-            />
-            Тренировка на джампах
-          </SwitchLabel>
-        </Modal>
+          onOk={operationType === 'create' ? this.createWorkout : this.editWorkout}        
+          onChangeValue={this.changePeopleCount}
+          onChangeSwitch={this.handleSwitch}
+        />
       </MainContainer>
     );
   }
@@ -220,6 +208,7 @@ const mapDispatchToProps = {
   fetchWorkouts,
   createWorkout,
   removeWorkout,
+  editWorkout,
   changePart,
 };
 

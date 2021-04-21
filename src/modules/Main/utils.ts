@@ -1,66 +1,56 @@
 import { WorkoutObject, MainStore } from 'src/store/modules/types';
 import * as R from 'ramda';
 import moment from 'moment';
-import { TimeObject } from './types';
+import { TimeObject, ChangedMonth } from './types';
 
 export const countWorkout = (peopleCount: number, personal?: boolean, free?: boolean, jumps?: boolean): number => {
   if (free) return 0;
 
-  if (personal) return peopleCount * 90;
+  if (personal) return peopleCount * 100;
 
   if (jumps) return peopleCount * 50;
 
-  return peopleCount * 30;
+  return peopleCount * 35;
 };
 
-export const getIdFromIndexes = (indexes: number[], workouts: WorkoutObject[]): string[] => {
-  const idArray: string[] = [];
-  
-  indexes.forEach((index) => {
-    idArray.push(workouts[index]._id!);
-  });
+export const createData = ({ date, peopleCount, price: salary, isFree, isPersonal, isJumps, _id }: WorkoutObject) => {
+  let id = 0;
 
-  return idArray;
+  id += 1;
+
+  return { id, date, peopleCount, salary, isFree, isPersonal, isJumps, dataId: _id };
 };
 
-export const getWorkoutsPriceSum = (workouts: WorkoutObject[]): number => {
-  if (R.isEmpty(workouts)) return 0;
+export const getIdFromIndexes = (indexes: number[], workouts: WorkoutObject[]): string[] => 
+  [...indexes].map((index) => workouts[index]._id as string);
 
-  const prices: number[] = workouts.map((k) => k.price);
-  const sum = prices.reduce((sum, current): number => {
-    return sum + current;
-  });
-
-  return sum;
-};
+export const getWorkoutsPriceSum = (workouts: WorkoutObject[]): number => 
+  R.isEmpty([...workouts]) 
+    ? 0
+    : [...workouts]
+      .map((workout) => workout.price)
+      .reduce((sum, current): number => sum + current);
 
 export const divideMonth = (workouts: WorkoutObject[]): TimeObject => {
-  const workoutsWithDate = workouts
-    .slice()
-    .map((work) => {
-      const newWork = { ...work };
-      newWork.date = moment(work.date).toDate();
-      return newWork;
-    })
-    .sort((a, b) => moment(a.date).unix() - moment(b.date).unix());
+  const workoutDates = [...workouts]
+    .map((workout) => moment(workout.date).toDate())
+    .sort((a, b) => moment(a).unix() - moment(b).unix());
 
   const timeObject: TimeObject = {
     2019: {
     },
   };
 
-  workoutsWithDate.forEach((work) => {
-    if (!timeObject[work.date.getFullYear()]) timeObject[work.date.getFullYear()] = {};
-    const year = timeObject[work.date.getFullYear()];
+  workoutDates.forEach((date, index) => {
+    if (!timeObject[date.getFullYear()]) timeObject[date.getFullYear()] = {};
+    const year = timeObject[date.getFullYear()];
     
-    if (!year[work.date.getMonth()]) year[work.date.getMonth()] = { first: [], second: [] };
-    const month = year[work.date.getMonth()];
+    if (!year[date.getMonth()]) year[date.getMonth()] = { first: [], second: [] };
+    const month = year[date.getMonth()];
 
-    if (work.date.getDate() <= 15) {
-      month.first.push(work);
-    } else {
-      month.second.push(work);
-    }
+    date.getDate() < 16
+      ? month.first.push({ ...workouts[index], ...date })
+      : month.second.push({ ...workouts[index], ...date });
   });
 
   return timeObject;
@@ -135,10 +125,4 @@ export const changeMonthPart = ({ workoutsByTime, currentPart, currentMonth, cur
   }
 
   return finalObject;
-};
-
-type ChangedMonth = {
-  currentPart: 'first' | 'second',
-  currentMonth: number;
-  currentYear: number;
 };
