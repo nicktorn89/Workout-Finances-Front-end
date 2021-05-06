@@ -10,7 +10,7 @@
     "start": "npm run start-dev",
     "start-dev": "webpack-dev-server --config=configs/webpack/dev.js",
     "precommit": "npm run lint:ts && npm run lint:css",
-    "test": "jest",
+    "test": "echo 'No test specified for now'",
     "watch-test": "jest --watch",
     "coverage": "jest --coverage"
   },
