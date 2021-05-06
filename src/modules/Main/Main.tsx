@@ -193,7 +193,7 @@ class Main extends React.PureComponent<MainProps, MainState> {
 
         <WorkoutModal
           isActive={activeModal}
-          title='Создание записи о тренировке'
+          title='Запись тренировки'
           values={{ isPersonal, isFree, isJumps, peopleCount }}
           onCancel={this.toggleModal}
           onOk={operationType === 'create' ? this.createWorkout : this.editWorkout}        
