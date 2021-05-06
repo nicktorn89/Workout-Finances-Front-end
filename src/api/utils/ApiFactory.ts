@@ -14,7 +14,7 @@ export class ApiFactory {
     const { apiUrl, ...restOptions } = this.options;
 
     return new ApiService(
-      urljoin(apiUrl, path),
+      urljoin(apiUrl ? apiUrl : '', path),
       restOptions,
     );
   }
@@ -57,24 +57,28 @@ class ApiService {
       ...this.options,
     };
 
+    // @ts-ignore
     return this.createRequest<R>(config);
   }
 
   public post = <R>(data: Data) => {
     const config = this.createConfig('post', data);
 
+    // @ts-ignore
     return this.createRequest<R>(config);
   }
 
   public put = <R>(data: Data) => {
     const config = this.createConfig('put', data);
 
+    // @ts-ignore
     return this.createRequest<R>(config);
   }
 
   public patch = <R>(data: Data) => {
     const config = this.createConfig('patch', data);
 
+    // @ts-ignore
     return this.createRequest<R>(config);
   }
 
@@ -86,6 +90,7 @@ class ApiService {
       ...this.options,
     };
 
+    // @ts-ignore
     return this.createRequest<R>(config);
   }
 
