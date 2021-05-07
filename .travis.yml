@@ -3,7 +3,7 @@ node_js:
   - 14
 
 before_script:
-  - echo MODE=${MODE} > .env
+  - echo MODE=production > .env
   - echo PROD_API=${PROD_API} > .env
 
 script: npm run build
