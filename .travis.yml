@@ -5,6 +5,7 @@ node_js:
 before_script:
   - echo MODE=production > .env
   - echo PROD_API=${PROD_API} > .env
+  - cat .env
 
 script: npm run build
 
