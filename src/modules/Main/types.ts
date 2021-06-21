@@ -6,19 +6,15 @@ export interface MainState {
   operationType: string;
 
   peopleCount: number;
-  isFree: boolean;
-  isJumps: boolean;
-  isPersonal: boolean;
+  trainPrice: number;
 
   indexesToRemove: number[];
-  workouts?: WorkoutObject[];
+  workouts: WorkoutObject[];
   editingWorkoutId: null | string;
-
-  [name: string]: boolean | number | null | string | number[] | WorkoutObject[] | undefined;
 }
 
 export interface MainProps {
-  workoutsArray?: WorkoutObject[];
+  workoutsArray: WorkoutObject[];
   currentPart?: 'first' | 'second';
   currentMonth?: number;
   currentYear?: number;

@@ -20,6 +20,8 @@ export const PeopleNumberInput: any = styled(TextField)`
   }
 `;
 
+export const TrainPriceInput: any = styled(PeopleNumberInput)``;
+
 export const PeopleNumberLabel = styled.label`
   width: 30%;
   text-align: center;
@@ -28,8 +30,10 @@ export const PeopleNumberLabel = styled.label`
   margin-top: 10px;
 `;
 
-export const SwitchLabel = styled.label`
-  width: 100%;
+export const TrainPriceLabel = styled.label`
+  width: 30%;
+  text-align: center;
   font-size: 1.4rem;
   font-family: 'Lato', sans-serif;
-`;
+  margin-top: 10px;
+`; 

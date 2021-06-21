@@ -16,12 +16,12 @@ import {
 } from './styled';
 
 class Main extends React.PureComponent<MainProps, MainState> {
-  public readonly state = {
+  public readonly state: MainState = {
     activeModal: false,
-    isPersonal: false,
-    isFree: false,
-    isJumps: false,
+
     peopleCount: 0,
+    trainPrice: 0,
+
     workouts: [],
     indexesToRemove: [],
     operationType: 'create',
@@ -64,11 +64,15 @@ class Main extends React.PureComponent<MainProps, MainState> {
   }
 
   public toggleWithData = (id: string) => {
-    const workoutForEdit = this.state.workouts.filter(({ _id: workoutId }) => workoutId === id)[0];
+    const { workouts } = this.state;
 
-    this.setState({ 
-      ...workoutForEdit as Object, 
-      activeModal: !this.state.activeModal, 
+    const { trainPrice, peopleCount } = workouts.filter(({ _id: workoutId }) => workoutId === id)[0];
+
+    this.setState({
+      trainPrice,
+      peopleCount,
+
+      activeModal: !this.state.activeModal,
       editingWorkoutId: id,
       operationType: 'editing',
     });
@@ -76,32 +80,34 @@ class Main extends React.PureComponent<MainProps, MainState> {
 
   public createWorkout = () => {
     const { createWorkout } = this.props;
-    const { peopleCount, isPersonal, isFree, isJumps } = this.state;
+    const { peopleCount, trainPrice } = this.state;
+
     const workoutObject = {
-      isPersonal,
-      isFree,
-      isJumps,
       peopleCount,
       date: moment().toDate(),
-      price: countWorkout(peopleCount, isPersonal, isFree, isJumps),
+      price: countWorkout(peopleCount, trainPrice),
+      isFree: false,
+      isPersonal: false,
+      isJumps: false,
     };
 
     createWorkout && createWorkout(workoutObject);
 
     this.toggleModal();
   }
-  
+
   public editWorkout = () => {
     const { editWorkout } = this.props;
-    const { peopleCount, isPersonal, isFree, isJumps, editingWorkoutId } = this.state;
+    const { peopleCount, editingWorkoutId, trainPrice } = this.state;
+
     const workoutObject = {
-      isPersonal,
-      isFree,
-      isJumps,
       peopleCount,
       date: moment().toDate(),
-      _id: editingWorkoutId,
-      price: countWorkout(peopleCount, isPersonal, isFree, isJumps),
+      _id: editingWorkoutId as string,
+      price: countWorkout(peopleCount, trainPrice),
+      isFree: false,
+      isPersonal: false,
+      isJumps: false,
     };
 
     editWorkout && editWorkout(workoutObject);
@@ -122,24 +128,22 @@ class Main extends React.PureComponent<MainProps, MainState> {
   public setDefaultValues = () => {
     this.setState(
       {
-        isFree: false,
-        isJumps: false,
-        isPersonal: false,
         peopleCount: 1,
+        trainPrice: 0,
       },
     );
   }
 
   public changePeopleCount = (e: Event) => {
     const { value } = (e.target as HTMLInputElement);
+
     this.setState({ peopleCount: Number(value) });
   }
 
-  public handleSwitch = (e: ChangeEvent<HTMLInputElement>, isChecked: boolean) => {
-    const { name: switchName } = (e.target as HTMLInputElement);
-    const switches = ['isPersonal', 'isFree', 'isJumps'].filter((switchInArray) => switchInArray !== switchName);
+  public handleChangeTrainPrice = (e: Event) => {
+    const { value } = (e.target as HTMLInputElement);
 
-    this.setState({ [switchName]: isChecked, [`${switches[0]}`]: false, [`${switches[1]}`]: false });
+    this.setState({ trainPrice: Number(value) });
   }
 
   public handleSliderChange = (isIncrement: boolean) => (): void => {
@@ -151,9 +155,9 @@ class Main extends React.PureComponent<MainProps, MainState> {
   }
 
   public render = () => {
-    const { activeModal, isPersonal, isFree, isJumps, workouts, peopleCount, operationType } = this.state;
+    const { activeModal, workouts, peopleCount, operationType, trainPrice } = this.state;
     const { currentPart, currentMonth, currentYear } = this.props;
-    
+
     workouts && divideMonth(workouts);
 
     return (
@@ -167,7 +171,7 @@ class Main extends React.PureComponent<MainProps, MainState> {
           </HeaderTitle>
         </MainHeader>
 
-        <Slider 
+        <Slider
           currentMonth={currentMonth}
           currentYear={currentYear}
           currentPart={currentPart}
@@ -177,16 +181,16 @@ class Main extends React.PureComponent<MainProps, MainState> {
         <Table
           onCheckboxChange={this.pickIndexesToRemove}
           onEdit={this.handleEdit}
-          data={workouts!} 
+          data={workouts!}
         />
 
-        <Controls 
+        <Controls
           removeWorkout={this.removeWorkout}
           toggleModal={this.toggleModal}
         />
 
-        {workouts && 
-          <SumTitle>Общая заработная плата: 
+        {workouts &&
+          <SumTitle>Общая заработная плата:
             <SumNumber as='span'>{getWorkoutsPriceSum(workouts)} &#8381;</SumNumber>
           </SumTitle>
         }
@@ -194,11 +198,11 @@ class Main extends React.PureComponent<MainProps, MainState> {
         <WorkoutModal
           isActive={activeModal}
           title='Запись тренировки'
-          values={{ isPersonal, isFree, isJumps, peopleCount }}
+          values={{ peopleCount, trainPrice }}
           onCancel={this.toggleModal}
-          onOk={operationType === 'create' ? this.createWorkout : this.editWorkout}        
-          onChangeValue={this.changePeopleCount}
-          onChangeSwitch={this.handleSwitch}
+          onOk={operationType === 'create' ? this.createWorkout : this.editWorkout}
+          onChangePeopleCount={this.changePeopleCount}
+          onChangeTrainPrice={this.handleChangeTrainPrice}
         />
       </MainContainer>
     );

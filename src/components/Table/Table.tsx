@@ -80,21 +80,6 @@ const Table: React.FC<TableProps> = ({ data, onCheckboxChange, onEdit }) => {
                 >
                   {row.salary}
                 </TableBodyCell>
-                <TableBodyCell
-                  align='left'
-                >
-                  {row.isFree && <Done />}
-                </TableBodyCell>
-                <TableBodyCell
-                  align='left'
-                >
-                  {row.isPersonal && <Done />}
-                </TableBodyCell>
-                <TableBodyCell
-                  align='left'
-                >
-                  {row.isJumps && <Done />}
-                </TableBodyCell>
               </TableRow>
             );
           })}
