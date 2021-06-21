@@ -61,21 +61,21 @@ class ApiService {
     return this.createRequest<R>(config);
   }
 
-  public post = <R>(data: Data) => {
+  public post = <R>(data: R) => {
     const config = this.createConfig('post', data);
 
     // @ts-ignore
     return this.createRequest<R>(config);
   }
 
-  public put = <R>(data: Data) => {
+  public put = <R>(data: R) => {
     const config = this.createConfig('put', data);
 
     // @ts-ignore
     return this.createRequest<R>(config);
   }
 
-  public patch = <R>(data: Data) => {
+  public patch = <R>(data: R) => {
     const config = this.createConfig('patch', data);
 
     // @ts-ignore
@@ -94,7 +94,7 @@ class ApiService {
     return this.createRequest<R>(config);
   }
 
-  private createConfig = (method: string, data: Data) => ({
+  private createConfig = <R>(method: string, data: R) => ({
     method,
     data,
     url: this.url,

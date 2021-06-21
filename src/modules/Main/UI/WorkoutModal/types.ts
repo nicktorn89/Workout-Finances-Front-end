@@ -3,14 +3,13 @@ import { ChangeEvent } from 'react';
 export interface WorkoutModalProps {
   isActive: boolean;
   title: string; 
-  values: ModalValues;
+  values: {
+    trainPrice: number;
+    peopleCount: number;
+  };
   
-  onChangeSwitch: (event: ChangeEvent<HTMLInputElement>, checked: boolean) => void;
   onCancel: (e: React.MouseEvent) => void;
   onOk?: (e: React.MouseEvent) => void;
-  onChangeValue: Function;
+  onChangePeopleCount: (e: Event) => void;
+  onChangeTrainPrice: (e: Event) => void;
 }
-
-type ModalValues = {
-  [key: string]: boolean | number;
-};
