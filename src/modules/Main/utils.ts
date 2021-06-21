@@ -3,22 +3,14 @@ import * as R from 'ramda';
 import moment from 'moment';
 import { TimeObject, ChangedMonth } from './types';
 
-export const countWorkout = (peopleCount: number, personal?: boolean, free?: boolean, jumps?: boolean): number => {
-  if (free) return 0;
+export const countWorkout = (peopleCount: number, trainPrice: number): number => Math.round(peopleCount * trainPrice);
 
-  if (personal) return peopleCount * 100;
-
-  if (jumps) return peopleCount * 50;
-
-  return peopleCount * 35;
-};
-
-export const createData = ({ date, peopleCount, price: salary, isFree, isPersonal, isJumps, _id }: WorkoutObject) => {
+export const createData = ({ date, peopleCount, price: salary, _id }: WorkoutObject) => {
   let id = 0;
 
   id += 1;
 
-  return { id, date, peopleCount, salary, isFree, isPersonal, isJumps, dataId: _id };
+  return { id, date, peopleCount, salary, dataId: _id };
 };
 
 export const getIdFromIndexes = (indexes: number[], workouts: WorkoutObject[]): string[] => 

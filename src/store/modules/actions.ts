@@ -1,6 +1,7 @@
 import { actionFactory } from '@gostgroup/redux-modus';
 import { Service } from 'src/api/';
-import { QueryObject, Data } from 'src/api/utils/types';
+import { QueryObject } from 'src/api/utils/types';
+import { WorkoutDTO } from './types';
 
 const createAction = actionFactory('organization');
 
@@ -15,19 +16,19 @@ export const fetchWorkouts = createAction(
 
 export const createWorkout = createAction(
   'createWorkout',
-  (workoutData) => {
+  (workoutData: WorkoutDTO) => {
     return Service
       .path('/workouts')
-      .post(workoutData as Data);
+      .post(workoutData);
   },
 );
 
 export const editWorkout = createAction(
   'editWorkout',
-  (workoutData) => {
+  (workoutData: WorkoutDTO) => {
     return Service
       .path('/workouts')
-      .put(workoutData as Data);
+      .put(workoutData);
   },
 );
 
