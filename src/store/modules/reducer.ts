@@ -34,12 +34,6 @@ reducer
         workoutsByTime: divideMonth((payload as WorkoutObject[])),
       };
 
-      console.log('allWorkouts', allWorkouts);
-      console.log(
-        'allWorkouts.workoutsByTime[currentYear][currentMonth][currentPart]',
-        allWorkouts.workoutsByTime[currentYear][currentMonth][currentPart],
-      );
-
       const currentWorkouts = { workouts: allWorkouts.workoutsByTime[currentYear][currentMonth][currentPart] };
 
       return {

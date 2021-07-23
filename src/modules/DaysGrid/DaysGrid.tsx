@@ -47,8 +47,6 @@ export const DaysGrid: React.FC<DaysGridProps> = ({ workouts, editWorkout, delet
     ? Math.floor((width - (width * marginsSize)) / workoutCellSize)
     : 6;
 
-  console.log('columnsCount', columnsCount);
-
   const renderedDays = useMemo(
     () => (days as WorkoutDayInfo[])
       .map(({ dayNumber, totalPeopleCount, totalEarningsForDay, workouts }, index) => (
