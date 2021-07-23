@@ -1,4 +1,4 @@
-import React, { ChangeEvent, MouseEvent as ReactMouseEvent } from 'react';
+import React, { MouseEvent as ReactMouseEvent } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { fetchWorkouts, createWorkout, removeWorkout, editWorkout, changePart } from 'src/store/modules/actions';
@@ -6,14 +6,18 @@ import { fetchWorkouts, createWorkout, removeWorkout, editWorkout, changePart } 
 import { countWorkout, getIdFromIndexes, getWorkoutsPriceSum, divideMonth } from './utils';
 
 import { RootStore } from 'src/store/types';
+import Controls from './Controls/index';
+import { WorkoutModal } from './WorkoutModal/WorkoutModal';
+
 import { MainState, MainProps } from './types';
 
-import { WorkoutModal, Controls } from './UI';
-import { Table, Slider } from 'src/components';
+import { Slider } from 'src/components';
 import {
   MainHeader, HeaderTitle, MainContainer,
   SumNumber, SumTitle,
 } from './styled';
+import { DaysGrid } from '../DaysGrid/DaysGrid';
+import { checkIsEqual } from 'src/checkIsEqual';
 
 class Main extends React.PureComponent<MainProps, MainState> {
   public readonly state: MainState = {
@@ -23,7 +27,7 @@ class Main extends React.PureComponent<MainProps, MainState> {
     trainPrice: 0,
 
     workouts: [],
-    indexesToRemove: [],
+    idsToRemove: [],
     operationType: 'create',
     editingWorkoutId: null,
   };
@@ -37,22 +41,9 @@ class Main extends React.PureComponent<MainProps, MainState> {
   }
 
   public componentDidUpdate = (prevProps: MainProps) => {
-    if (prevProps.workoutsArray !== this.props.workoutsArray) {
+    if (checkIsEqual(prevProps.workoutsArray, this.props.workoutsArray)) {
       this.setState({ workouts: this.props.workoutsArray });
     }
-  }
-
-  public pickIndexesToRemove = (e: ReactMouseEvent<HTMLElement, MouseEvent>) => {
-    let removableIndexes: number[] = [...this.state.indexesToRemove];
-    const { checked: switchChecked, name: elementIndex } = (e.target as HTMLInputElement);
-
-    if (switchChecked) {
-      removableIndexes.push(+elementIndex);
-    } else {
-      removableIndexes = removableIndexes.filter((index) => index !== +elementIndex);
-    }
-
-    this.setState({ indexesToRemove: removableIndexes });
   }
 
   public toggleModal = () => {
@@ -65,6 +56,8 @@ class Main extends React.PureComponent<MainProps, MainState> {
 
   public toggleWithData = (id: string) => {
     const { workouts } = this.state;
+
+    console.log('workouts', workouts);
 
     const { trainPrice, peopleCount } = workouts.filter(({ _id: workoutId }) => workoutId === id)[0];
 
@@ -119,10 +112,10 @@ class Main extends React.PureComponent<MainProps, MainState> {
 
   public removeWorkout = () => {
     const { removeWorkout } = this.props;
-    const { indexesToRemove, workouts } = this.state;
+    const { idsToRemove } = this.state;
 
-    workouts && removeWorkout && removeWorkout({ idArray: getIdFromIndexes(indexesToRemove, workouts) });
-    this.setState({ indexesToRemove: [] });
+    removeWorkout && removeWorkout({ idArray: idsToRemove });
+    this.setState({ idsToRemove: [] });
   }
 
   public setDefaultValues = () => {
@@ -154,6 +147,15 @@ class Main extends React.PureComponent<MainProps, MainState> {
     this.toggleWithData(id);
   }
 
+  public handleDelete = (id: string) => {
+    this.setState((prev) => ({
+      ...prev,
+      idsToRemove: [...prev.idsToRemove, id],
+    }), () => {
+      this.removeWorkout();
+    });
+  }
+
   public render = () => {
     const { activeModal, workouts, peopleCount, operationType, trainPrice } = this.state;
     const { currentPart, currentMonth, currentYear } = this.props;
@@ -178,14 +180,13 @@ class Main extends React.PureComponent<MainProps, MainState> {
           onClick={this.handleSliderChange}
         />
 
-        <Table
-          onCheckboxChange={this.pickIndexesToRemove}
-          onEdit={this.handleEdit}
-          data={workouts!}
+        <DaysGrid
+          workouts={workouts}
+          editWorkout={this.handleEdit}
+          deleteWorkout={this.handleDelete}
         />
 
         <Controls
-          removeWorkout={this.removeWorkout}
           toggleModal={this.toggleModal}
         />
 

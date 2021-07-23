@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { media } from 'src/theme/mixin';
+import { media } from 'src/media';
 
 // @ts-nocheck
 export const ModalContainer = styled.div`
