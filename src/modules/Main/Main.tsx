@@ -41,13 +41,8 @@ class Main extends React.PureComponent<MainProps, MainState> {
   }
 
   public componentDidUpdate = (prevProps: MainProps) => {
-    console.log('prevProps', prevProps, this.props);
-    console.log(
-      'checkIsEqual(prevProps.workoutsArray, this.props.workoutsArray)',
-      checkIsEqual(prevProps.workoutsArray, this.props.workoutsArray),
-    );
-
-    if (checkIsEqual(prevProps.workoutsArray, this.props.workoutsArray)) {
+    if (!checkIsEqual(prevProps.workoutsArray, this.props.workoutsArray)) {
+      console.log('prevProps', prevProps, 'this.props', this.props);
       this.setState({ workouts: this.props.workoutsArray });
     }
   }
