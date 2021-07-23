@@ -41,6 +41,12 @@ class Main extends React.PureComponent<MainProps, MainState> {
   }
 
   public componentDidUpdate = (prevProps: MainProps) => {
+    console.log('prevProps', prevProps, this.props);
+    console.log(
+      'checkIsEqual(prevProps.workoutsArray, this.props.workoutsArray)',
+      checkIsEqual(prevProps.workoutsArray, this.props.workoutsArray),
+    );
+
     if (checkIsEqual(prevProps.workoutsArray, this.props.workoutsArray)) {
       this.setState({ workouts: this.props.workoutsArray });
     }
@@ -56,8 +62,6 @@ class Main extends React.PureComponent<MainProps, MainState> {
 
   public toggleWithData = (id: string) => {
     const { workouts } = this.state;
-
-    console.log('workouts', workouts);
 
     const { trainPrice, peopleCount } = workouts.filter(({ _id: workoutId }) => workoutId === id)[0];
 
