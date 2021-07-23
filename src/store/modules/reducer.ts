@@ -29,9 +29,13 @@ reducer
     (onSuccess(fetchWorkouts)),
     (state, payload) => {
       const { currentYear, currentMonth, currentPart } = state;
+
       const allWorkouts = {
         workoutsByTime: divideMonth((payload as WorkoutObject[])),
       };
+
+      console.log('allWorkouts', allWorkouts);
+
       const currentWorkouts = { workouts: allWorkouts.workoutsByTime[currentYear][currentMonth][currentPart] };
 
       return {
