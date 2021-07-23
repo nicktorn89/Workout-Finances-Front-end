@@ -8,7 +8,7 @@ export interface MainState {
   peopleCount: number;
   trainPrice: number;
 
-  indexesToRemove: number[];
+  idsToRemove: string[];
   workouts: WorkoutObject[];
   editingWorkoutId: null | string;
 }

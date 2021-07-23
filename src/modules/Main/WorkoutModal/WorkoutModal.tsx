@@ -1,9 +1,11 @@
 import React, { memo } from 'react';
+import { Modal } from 'src/components';
+import { checkIsEqual } from 'src/checkIsEqual';
+
 import { WorkoutModalProps } from './types';
 import { PeopleNumberInput, PeopleNumberLabel, TrainPriceInput, TrainPriceLabel } from './styled';
-import { Modal } from 'src/components';
 
-const WorkoutModal: React.FC<WorkoutModalProps> = ({
+export const WorkoutModal: React.FC<WorkoutModalProps> = memo(({
   isActive, onCancel, onOk, onChangeTrainPrice, onChangePeopleCount, title, values,
 }) => (
     <Modal
@@ -42,6 +44,4 @@ const WorkoutModal: React.FC<WorkoutModalProps> = ({
         onChange={onChangeTrainPrice}
       />
     </Modal>
-  );
-
-export default memo(WorkoutModal);
+  ), checkIsEqual);

@@ -6,8 +6,6 @@ export const sizes = {
   phone: 320,
 };
 
-interface ThemeInterface {}
-
 // Iterate through the sizes and create a media template
 export const media = (Object.keys(sizes) as (keyof typeof sizes)[]).reduce(
   (acc, label) => {
@@ -19,5 +17,5 @@ export const media = (Object.keys(sizes) as (keyof typeof sizes)[]).reduce(
 
     return acc;
   },
-  {} as { [key in keyof typeof sizes]: ThemedCssFunction<ThemeInterface> },
+  {} as { [key in keyof typeof sizes]: ThemedCssFunction<{}> },
 );

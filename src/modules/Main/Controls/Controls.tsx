@@ -1,8 +1,10 @@
 import React, { memo } from 'react';
+import { checkIsEqual } from 'src/checkIsEqual';
+
 import { ControlsProps } from './types';
 import { ButtonsContainer, AddWorkout, RemoveWorkout } from './styled';
 
-const Controls: React.FC<ControlsProps> = ({ removeWorkout, toggleModal }) =>
+const Controls: React.FC<ControlsProps> = ({ toggleModal }) =>
   <ButtonsContainer>
     <AddWorkout
       color='primary'
@@ -11,14 +13,6 @@ const Controls: React.FC<ControlsProps> = ({ removeWorkout, toggleModal }) =>
     >
       Добавить тренировку
     </AddWorkout>
-
-    <RemoveWorkout
-      color='secondary'
-      variant='contained'
-      onClick={removeWorkout}
-    >
-      Удалить тренировку
-    </RemoveWorkout>
   </ButtonsContainer>;
 
-export default memo(Controls);
+export default memo(Controls, checkIsEqual);

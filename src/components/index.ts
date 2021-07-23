@@ -1,5 +1,5 @@
 import Modal from './Modal';
 import Slider from './Slider';
-import Table from './Table';
+import WorkoutDay from './WorkoutDay';
 
-export { Modal, Slider, Table };
+export { Modal, Slider, WorkoutDay };

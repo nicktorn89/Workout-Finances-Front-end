@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
-import { media } from 'src/theme/mixin';
+import { media } from 'src/media';
 
 // @ts-nocheck
 export const MainHeader: any = styled(AppBar)`
@@ -50,4 +50,7 @@ export const MainContainer = styled.div`
   height: 100vh;
   display: flex;
   flex-wrap: wrap;
+
+  overflow-x: hidden;
+  overflow-y: auto;
 `;
