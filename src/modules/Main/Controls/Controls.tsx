@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import { checkIsEqual } from 'src/checkIsEqual';
 
 import { ControlsProps } from './types';
-import { ButtonsContainer, AddWorkout, RemoveWorkout } from './styled';
+import { ButtonsContainer, AddWorkout } from './styled';
 
 const Controls: React.FC<ControlsProps> = ({ toggleModal }) =>
   <ButtonsContainer>

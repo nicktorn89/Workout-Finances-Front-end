@@ -15,6 +15,9 @@ export const DateTitle: any = styled(Typography)`
   &&& {
     margin: 0 2rem;
     font-size: 18px;
-    font-weight: 700;
+    font-weight: 500;
+
+    color: #322e2f;
+    font-family: 'Roboto', sans-serif;
   }
 `;

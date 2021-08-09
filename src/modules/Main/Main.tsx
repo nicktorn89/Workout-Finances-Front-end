@@ -26,7 +26,54 @@ class Main extends React.PureComponent<MainProps, MainState> {
     peopleCount: 0,
     trainPrice: 0,
 
-    workouts: [],
+    workouts: [
+      {
+        date: new Date(),
+        peopleCount: 0,
+        trainPrice: 0,
+        price: 0,
+        isPersonal: false,
+        isFree: false,
+        isJumps: false,
+      },
+
+      {
+        date: new Date('09/10/2021'),
+        peopleCount: 0,
+        trainPrice: 0,
+        price: 0,
+        isPersonal: false,
+        isFree: false,
+        isJumps: false,
+      },
+      {
+        date: new Date('09/11/2021'),
+        peopleCount: 0,
+        trainPrice: 0,
+        price: 0,
+        isPersonal: false,
+        isFree: false,
+        isJumps: false,
+      },
+      {
+        date: new Date('09/12/2021'),
+        peopleCount: 0,
+        trainPrice: 0,
+        price: 0,
+        isPersonal: false,
+        isFree: false,
+        isJumps: false,
+      },
+      {
+        date: new Date('09/13/2021'),
+        peopleCount: 0,
+        trainPrice: 0,
+        price: 0,
+        isPersonal: false,
+        isFree: false,
+        isJumps: false,
+      },
+    ],
     idsToRemove: [],
     operationType: 'create',
     editingWorkoutId: null,
@@ -37,7 +84,7 @@ class Main extends React.PureComponent<MainProps, MainState> {
 
     fetchWorkouts && fetchWorkouts();
 
-    workouts && this.setState({ workouts });
+    // workouts && this.setState({ workouts });
   }
 
   public componentDidUpdate = (prevProps: MainProps) => {

@@ -14,6 +14,9 @@ export const PeopleNumberInput: any = styled(TextField)`
       }
     }
 
+    color: #322e2f;
+    font-family: 'Roboto', sans-serif;
+
     div::before {
       border-bottom: 1px solid #80808045;
     }
@@ -26,7 +29,9 @@ export const PeopleNumberLabel = styled.label`
   width: 30%;
   text-align: center;
   font-size: 1.4rem;
-  font-family: 'Lato', sans-serif;
+
+  color: #322e2f;
+  font-family: 'Roboto', sans-serif;
   margin-top: 10px;
 `;
 
@@ -34,6 +39,8 @@ export const TrainPriceLabel = styled.label`
   width: 30%;
   text-align: center;
   font-size: 1.4rem;
-  font-family: 'Lato', sans-serif;
+
+  color: #322e2f;
+  font-family: 'Roboto', sans-serif;
   margin-top: 10px;
 `; 
