@@ -9,8 +9,6 @@ import { WorkoutDayInfo } from 'src/components/WorkoutDay/types';
 
 export const DaysGrid: React.FC<DaysGridProps> = ({ workouts, editWorkout, deleteWorkout }) => {
   const { width } = useWindowSize();
-  console.log('workouts', workouts);
-
   const workoutsPerDay = workouts.reduce(
     (acc, currentWorkout) => {
       const workoutDate = moment(currentWorkout.date).date();
@@ -36,8 +34,6 @@ export const DaysGrid: React.FC<DaysGridProps> = ({ workouts, editWorkout, delet
     {} as { [key: string]: undefined | WorkoutDayInfo },
   );
 
-  console.log('workoutsPerDay', workoutsPerDay);
-
   const days = Object.entries(workoutsPerDay)
     .filter(([key, value]) => !!value)
     .map(([key, value]) => value)
@@ -49,8 +45,6 @@ export const DaysGrid: React.FC<DaysGridProps> = ({ workouts, editWorkout, delet
   const columnsCount = width
     ? Math.floor((width - (width * marginsSize)) / workoutCellSize)
     : 6;
-
-  console.log('days', days);
 
   const renderedDays = useMemo(
     () => (days as WorkoutDayInfo[])
@@ -68,8 +62,6 @@ export const DaysGrid: React.FC<DaysGridProps> = ({ workouts, editWorkout, delet
       )),
     [days, columnsCount, editWorkout, deleteWorkout, workouts],
   );
-
-  console.log('renderedDays', renderedDays);
 
   return (
     <DaysGridContainer columnsCount={columnsCount} cellSize={workoutCellSize}>

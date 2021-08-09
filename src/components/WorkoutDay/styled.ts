@@ -31,7 +31,7 @@ export const WorkoutDayContainer = styled.div<{ isExpanded: boolean; columnsCoun
 
   ${ifProp({ isExpanded: true }, css<{ columnsCount: number }>`
     grid-column-start: 1;
-    grid-column-end: ${({ columnsCount }) => columnsCount};
+    grid-column-end: ${({ columnsCount }) => columnsCount + 1};
 
     ${WorkoutDayDateBlock} {
       ${media.phone`
