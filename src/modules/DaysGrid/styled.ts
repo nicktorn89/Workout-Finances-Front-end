@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { media } from 'src/media';
 
 interface DaysGridContainerProps {
   columnsCount?: number;
@@ -14,6 +13,7 @@ export const DaysGridContainer = styled.div<DaysGridContainerProps>`
 
 	grid-auto-rows: ${({ cellSize }) => cellSize}px;
 	grid-gap: 10px;
+  justify-content: center;
 
 	grid-template-columns: repeat(${({ columnsCount = 0 }) => columnsCount}, ${({ cellSize }) => cellSize}px);
 `;

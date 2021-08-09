@@ -5,15 +5,22 @@ import { media } from 'src/media';
 
 // @ts-nocheck
 export const MainHeader: any = styled(AppBar)`
-  height: 50px;
+  &&& {
+    height: 50px;
+  
+    background-color: #322e2f;
+    color: #fff;
+  }
 `;
 
 export const HeaderTitle: any = styled(Typography)`
   &&& {
-    color: white;
+    color: inherit;
     font-size: 28px;
     margin-left: 2rem;
     margin-top: 1.2rem;
+
+    font-family: 'Roboto', sans-serif;
   }
 `;
 
@@ -22,6 +29,8 @@ export const SumTitle: any = styled(Typography)`
     font-size: 28px;
     margin-top: 1.2rem;
     display: flex;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
   
     ${media.phone`
       margin: 1.2rem auto 0;
@@ -42,6 +51,9 @@ export const SumNumber: any = styled(Typography)`
   &&& {
     font-size: 30px;
     margin-left: 1rem;
+
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
   }
 `;
 
@@ -52,5 +64,6 @@ export const MainContainer = styled.div`
   flex-wrap: wrap;
 
   overflow-x: hidden;
-  overflow-y: auto;
+
+  background: linear-gradient(45deg, #12a4d9, transparent);
 `;

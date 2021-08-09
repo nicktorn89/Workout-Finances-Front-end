@@ -34,6 +34,9 @@ export const ModalHeader: any = styled(Typography)`
     font-size: 16px;
     height: 10%;
     border-bottom: 1px solid #80808045;
+
+    color: #322e2f;
+    font-family: 'Roboto', sans-serif;
   }
 `;
 
@@ -58,11 +61,23 @@ export const OkButton: any = styled(Button)`
   &&& {
     margin-right: 1rem;
     font-size: 1.2rem;
+
+    background-color: #322e2f;
+    color: #fff;
+    font-weight: bold;
+
+    font-family: 'Roboto', sans-serif;
   }
 `;
 
 export const CancelButton: any = styled(Button)`
   &&& {
     font-size: 1.2rem;
+
+    background-color: #fff;
+    color: #322e2f;
+    font-weight: bold;
+
+    font-family: 'Roboto', sans-serif;
   }
 `;

@@ -49,6 +49,8 @@ export const WorkoutDayNumber = styled.h3`
   font-size: 32px;
   padding-left: 10px;
   padding-top: 10px;
+
+  font-family: 'Roboto', sans-serif;
 `;
 
 export const WorkoutTotalsBlock = styled.div`
@@ -73,11 +75,15 @@ export const WorkoutTotalPeopleCount = styled.div`
 export const WorkoutTotalPeopleCountLabel = styled.p`
   font-weight: bold;
   font-size: 12px;
+
+  font-family: 'Roboto', sans-serif;
 `;
 
 export const WorkoutTotalPeopleCountValue = styled.p`
   font-size: 12px;
   margin-top: 5px;
+
+  font-family: 'Roboto', sans-serif;
 `;
 
 export const WorkoutTotalEarnings = styled(WorkoutTotalPeopleCount)`

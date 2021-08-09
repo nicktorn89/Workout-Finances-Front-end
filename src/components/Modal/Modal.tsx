@@ -17,6 +17,7 @@ const Modal: React.FC<ModalProps> = ({ isActive, onCancel, onOk, children, title
       <ModalHeader variant='h6' id='modal-title'>
         {title && title}
       </ModalHeader>
+
       <ModalContent>
         {children}
       </ModalContent>

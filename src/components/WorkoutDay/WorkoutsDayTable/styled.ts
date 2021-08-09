@@ -28,6 +28,8 @@ export const WorkoutDate = styled.p`
 
   display: flex;
   justify-content: center;
+
+  font-family: 'Roboto', sans-serif;
 `;
 
 export const WorkoutPeopleCount = styled.p`
@@ -36,6 +38,8 @@ export const WorkoutPeopleCount = styled.p`
 
   display: flex;
   justify-content: center;
+
+  font-family: 'Roboto', sans-serif;
 
   ${media.phone`
     display: none;
@@ -76,6 +80,8 @@ export const WorkoutDateHeading = styled.p`
   justify-content: center;
   align-items: center;
   text-align: center;
+
+  font-family: 'Roboto', sans-serif;
 
   ${media.phone`
     font-size: 12px;

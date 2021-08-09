@@ -39,7 +39,13 @@ export const DaysGrid: React.FC<DaysGridProps> = ({ workouts, editWorkout, delet
     .map(([key, value]) => value)
     .sort((a, b) => a!.dayNumber - b!.dayNumber);
 
-  const workoutCellSize = (width && width <= 768) ? 150 : 175;
+  const workoutCellSize = (() => {
+    if (width && width >= 768) return 175;
+
+    if (width && width >= 400) return 150;
+
+    return 140;
+  })();
   const marginsSize = 0.2;
 
   const columnsCount = width
