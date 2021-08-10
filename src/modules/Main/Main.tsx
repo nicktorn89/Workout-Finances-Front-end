@@ -13,8 +13,7 @@ import { MainState, MainProps } from './types';
 
 import { Slider } from 'src/components';
 import {
-  MainHeader, HeaderTitle, MainContainer,
-  SumNumber, SumTitle,
+  MainHeader, HeaderTitle, MainContainer, SumTitle,
 } from './styled';
 import { DaysGrid } from '../DaysGrid/DaysGrid';
 import { checkIsEqual } from 'src/checkIsEqual';
@@ -151,7 +150,7 @@ class Main extends React.PureComponent<MainProps, MainState> {
   public setDefaultValues = () => {
     this.setState(
       {
-        peopleCount: 1,
+        peopleCount: 0,
         trainPrice: 0,
         editingWorkoutId: null,
         workoutDate: formatTimeForDateTimePicker(),
@@ -234,9 +233,7 @@ class Main extends React.PureComponent<MainProps, MainState> {
         />
 
         {workouts &&
-          <SumTitle>Общая заработная плата:
-            <SumNumber as='span'>{getWorkoutsPriceSum(workouts)} &#8381;</SumNumber>
-          </SumTitle>
+          <SumTitle>Всего: {getWorkoutsPriceSum(workouts)} &#8381;</SumTitle>
         }
 
         <WorkoutModal
