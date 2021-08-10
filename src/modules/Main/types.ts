@@ -9,6 +9,8 @@ export interface MainState {
   trainPrice: number;
   workoutDate: string;
 
+  shouldBeValidated: boolean;
+
   idsToRemove: string[];
   workouts: WorkoutObject[];
   editingWorkoutId: null | string;

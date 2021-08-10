@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import { Modal } from 'src/components';
 import { checkIsEqual } from 'src/checkIsEqual';
 
@@ -9,7 +9,12 @@ export const WorkoutModal: React.FC<WorkoutModalProps> = memo(({
   isActive, onCancel, onOk, isEdit,
   onChangeTrainPrice, onChangePeopleCount,
   handleChangeWorkoutDate, title, values,
-}) => (
+  shouldBeValidated,
+}) => {
+  const isPeopleCountValid = typeof values.peopleCount === 'number' && values.peopleCount > 0;
+  const isTrainPriceValid = typeof values.trainPrice === 'number' && values.trainPrice > 0;
+
+  return (
     <Modal
       isActive={isActive}
       title={title}
@@ -39,6 +44,7 @@ export const WorkoutModal: React.FC<WorkoutModalProps> = memo(({
         margin='normal'
         defaultValue={isEdit && values.peopleCount}
         onChange={onChangePeopleCount}
+        error={shouldBeValidated && !isPeopleCountValid}
       />
 
       <WorkoutModalInput
@@ -53,6 +59,8 @@ export const WorkoutModal: React.FC<WorkoutModalProps> = memo(({
         margin='normal'
         defaultValue={isEdit && values.trainPrice}
         onChange={onChangeTrainPrice}
+        error={shouldBeValidated && !isTrainPriceValid}
       />
     </Modal>
-  ), checkIsEqual);
+  );
+}, checkIsEqual);

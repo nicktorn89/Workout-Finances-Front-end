@@ -4,6 +4,8 @@ export interface WorkoutModalProps {
   isActive: boolean;
   title: string; 
   isEdit: boolean;
+
+  shouldBeValidated: boolean;
   values: {
     trainPrice: number;
     peopleCount: number;
