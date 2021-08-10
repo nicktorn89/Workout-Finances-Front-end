@@ -57,6 +57,8 @@ export const WorkoutDayOfWeek = styled.p`
   font-size: 10px;
   margin-left: 10px;
   margin-top: 5px;
+
+  font-family: 'Roboto', sans-serif;
 `;
 
 export const WorkoutTotalsBlock = styled.div`

@@ -38,6 +38,8 @@ class Main extends React.PureComponent<MainProps, MainState> {
     trainPrice: 0,
     workoutDate: formatTimeForDateTimePicker(),
 
+    shouldBeValidated: false,
+
     workouts: [],
     idsToRemove: [],
     operationType: 'create',
@@ -86,39 +88,56 @@ class Main extends React.PureComponent<MainProps, MainState> {
     const { createWorkout } = this.props;
     const { peopleCount, trainPrice, workoutDate } = this.state;
 
-    const workoutObject = {
-      peopleCount,
-      date: moment(workoutDate).toDate(),
-      price: countWorkout(peopleCount, trainPrice),
-      isFree: false,
-      isPersonal: false,
-      isJumps: false,
-    };
+    this.setState({
+      shouldBeValidated: true,
+    });
 
-    createWorkout && createWorkout(workoutObject);
+    if (trainPrice <= 0 || peopleCount <= 0) {
+      console.error('Data not valid, please change fields');
+    } else {
+      const workoutObject = {
+        peopleCount,
+        date: moment(workoutDate).toDate(),
+        price: countWorkout(peopleCount, trainPrice),
+        isFree: false,
+        isPersonal: false,
+        isJumps: false,
+      };
 
-    this.toggleModal();
+      createWorkout && createWorkout(workoutObject);
+
+      this.toggleModal();
+    }
+
   }
 
   public editWorkout = () => {
     const { editWorkout } = this.props;
     const { peopleCount, editingWorkoutId, trainPrice, workoutDate } = this.state;
 
-    const workoutObject = {
-      peopleCount,
-      date: moment(workoutDate).toDate(),
-      _id: editingWorkoutId as string,
-      price: countWorkout(peopleCount, trainPrice),
-      isFree: false,
-      isPersonal: false,
-      isJumps: false,
-    };
+    this.setState({
+      shouldBeValidated: true,
+    });
 
-    editWorkout && editWorkout(workoutObject);
+    if (trainPrice <= 0 || peopleCount <= 0) {
+      console.error('Data not valid, please change fields');
+    } else {
+      const workoutObject = {
+        peopleCount,
+        date: moment(workoutDate).toDate(),
+        _id: editingWorkoutId as string,
+        price: countWorkout(peopleCount, trainPrice),
+        isFree: false,
+        isPersonal: false,
+        isJumps: false,
+      };
 
-    this.setState({ operationType: 'create' });
+      editWorkout && editWorkout(workoutObject);
 
-    this.toggleModal();
+      this.setState({ operationType: 'create' });
+
+      this.toggleModal();
+    }
   }
 
   public removeWorkout = () => {
@@ -136,6 +155,7 @@ class Main extends React.PureComponent<MainProps, MainState> {
         trainPrice: 0,
         editingWorkoutId: null,
         workoutDate: formatTimeForDateTimePicker(),
+        shouldBeValidated: false,
       },
     );
   }
@@ -176,7 +196,11 @@ class Main extends React.PureComponent<MainProps, MainState> {
   }
 
   public render = () => {
-    const { activeModal, workouts, peopleCount, operationType, trainPrice, workoutDate, editingWorkoutId } = this.state;
+    const {
+      activeModal, workouts, peopleCount,
+      operationType, trainPrice, workoutDate,
+      editingWorkoutId, shouldBeValidated,
+    } = this.state;
     const { currentPart, currentMonth, currentYear } = this.props;
 
     workouts && divideMonth(workouts);
@@ -219,6 +243,7 @@ class Main extends React.PureComponent<MainProps, MainState> {
           isActive={activeModal}
           title='Запись тренировки'
           isEdit={Boolean(editingWorkoutId)}
+          shouldBeValidated={shouldBeValidated}
           values={{ peopleCount, trainPrice, workoutDate }}
           onCancel={this.toggleModal}
           onOk={operationType === 'create' ? this.createWorkout : this.editWorkout}
