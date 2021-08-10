@@ -150,7 +150,7 @@ class Main extends React.PureComponent<MainProps, MainState> {
   public setDefaultValues = () => {
     this.setState(
       {
-        peopleCount: 1,
+        peopleCount: 0,
         trainPrice: 0,
         editingWorkoutId: null,
         workoutDate: formatTimeForDateTimePicker(),
