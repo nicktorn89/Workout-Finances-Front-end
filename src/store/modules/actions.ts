@@ -43,7 +43,7 @@ export const removeWorkout = createAction(
 
 export const changePart = createAction(
   'changePart',
-  (isIncrement: boolean) => {
-    return { isIncrement };
+  (date: Date) => {
+    return { date };
   },
 );

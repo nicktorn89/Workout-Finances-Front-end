@@ -18,9 +18,9 @@ export interface MainState {
 
 export interface MainProps {
   workoutsArray: WorkoutObject[];
-  currentPart?: 'first' | 'second';
-  currentMonth?: number;
-  currentYear?: number;
+  currentPart: 'first' | 'second';
+  currentMonth: number;
+  currentYear: number;
 
   fetchWorkouts?: typeof fetchWorkouts;
   createWorkout?: typeof createWorkout;

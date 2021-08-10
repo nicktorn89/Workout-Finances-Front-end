@@ -1,7 +1,36 @@
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
+import { createMuiTheme } from '@material-ui/core';
 
 // @ts-nocheck
+
+export const materialTheme = createMuiTheme({
+  overrides: {
+    // @ts-ignore
+    MuiPickersToolbar: {
+      toolbar: {
+        backgroundColor: '#322e2f',
+      },
+    },
+    MuiPickersDay: {
+      day: {
+        color: '#322e2f',
+      },
+      daySelected: {
+        backgroundColor: '#322e2f',
+        color: '#fff',
+      },
+    },
+    MuiPickersModal: {
+      dialogAction: {
+        color: '#322e2f',
+      },
+    },
+    MuiDialogActions: {
+      color: '#322e2f',
+    },
+  },
+});
 
 export const SliderContainer = styled.div`
   width: 100%;
@@ -19,5 +48,7 @@ export const DateTitle: any = styled(Typography)`
 
     color: #322e2f;
     font-family: 'Roboto', sans-serif;
+
+    cursor: pointer;
   }
 `;
