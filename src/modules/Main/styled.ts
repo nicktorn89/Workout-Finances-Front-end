@@ -47,16 +47,6 @@ export const SumTitle: any = styled(Typography)`
   }
 `;
 
-export const SumNumber: any = styled(Typography)`
-  &&& {
-    font-size: 30px;
-    margin-left: 1rem;
-
-    font-family: 'Roboto', sans-serif;
-    font-weight: 500;
-  }
-`;
-
 export const MainContainer = styled.div`
   width: 100%;
   height: 100vh;
