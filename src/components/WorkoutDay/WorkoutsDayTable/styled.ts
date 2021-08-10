@@ -7,13 +7,7 @@ export const TableContainer = styled.div`
   grid-auto-rows: 25px;
   grid-gap: 8px;
 
-  ${media.phone`
-    grid-template-columns: 2fr repeat(2, 2fr) repeat(2, 1fr);
-  `}
-
-  ${media.tablet`
-    grid-template-columns: 2fr repeat(3, 2fr) repeat(2, 1fr);
-  `}
+  grid-template-columns: 2fr repeat(4, 1fr);
 
   height: 100%;
   overflow: auto;
@@ -40,30 +34,9 @@ export const WorkoutPeopleCount = styled.p`
   justify-content: center;
 
   font-family: 'Roboto', sans-serif;
-
-  ${media.phone`
-    display: none;
-  `}
-
-  ${media.tablet`
-    display: flex;
-  `}
-`;
-
-export const WorkoutTrainPrice = styled(WorkoutPeopleCount)`
-  font-size: 12px;
-
-  ${media.phone`
-    display: flex;
-  `}
 `;
 
 export const WorkoutTotalPrice = styled(WorkoutPeopleCount)`
-  font-size: 12px;
-
-  ${media.phone`
-    display: flex;
-  `}
 `;
 
 export const WorkoutDateHeading = styled.p`
@@ -94,26 +67,9 @@ export const WorkoutDateHeading = styled.p`
 
 export const WorkoutPeopleCountHeading = styled(WorkoutDateHeading)`
   padding: 0;
-
-  ${media.phone`
-    display: none;
-  `}
-
-  ${media.tablet`
-    display: flex;
-  `}
-`;
-
-export const WorkoutTrainPriceHeading = styled(WorkoutPeopleCountHeading)`
-  ${media.phone`
-    display: flex;
-  `}
 `;
 
 export const WorkoutTotalPriceHeading = styled(WorkoutPeopleCountHeading)`
-  ${media.phone`
-    display: flex;
-  `}
 `;
 
 export const WorkoutDelete = styled.button`
@@ -132,9 +88,6 @@ export const WorkoutDelete = styled.button`
 export const WorkoutEdit = styled(WorkoutDelete)``;
 
 export const WorkoutDeleteHeading = styled(WorkoutPeopleCountHeading)`
-  ${media.phone`
-    display: flex;
-  `}
 `;
 
 export const WorkoutEditHeading = styled(WorkoutDeleteHeading)``;

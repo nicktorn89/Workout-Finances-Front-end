@@ -53,6 +53,12 @@ export const WorkoutDayNumber = styled.h3`
   font-family: 'Roboto', sans-serif;
 `;
 
+export const WorkoutDayOfWeek = styled.p`
+  font-size: 10px;
+  margin-left: 10px;
+  margin-top: 5px;
+`;
+
 export const WorkoutTotalsBlock = styled.div`
   display: flex;
   flex-direction: column;

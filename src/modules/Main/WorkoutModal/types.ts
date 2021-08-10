@@ -3,6 +3,7 @@ import { ChangeEvent } from 'react';
 export interface WorkoutModalProps {
   isActive: boolean;
   title: string; 
+  isEdit: boolean;
   values: {
     trainPrice: number;
     peopleCount: number;

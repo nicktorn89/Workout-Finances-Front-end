@@ -1,9 +1,10 @@
+import moment from 'moment';
 import React, { useState, useRef, useCallback } from 'react';
 import {
   WorkoutDayContainer, WorkoutDayNumber, WorkoutDayDateBlock,
   WorkoutTotalEarnings, WorkoutTotalsBlock, WorkoutTotalPeopleCount,
   WorkoutTotalPeopleCountLabel, WorkoutTotalPeopleCountValue,
-  WorkoutTotalEarningsLabel, WorkoutTotalEarningsValue,
+  WorkoutTotalEarningsLabel, WorkoutTotalEarningsValue, WorkoutDayOfWeek,
 } from './styled';
 import { WorkoutDayProps } from './types';
 import WorkoutsDayTable from './WorkoutsDayTable/index';
@@ -16,6 +17,10 @@ export const WorkoutDay: React.FC<WorkoutDayProps> = (
 ) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const workoutDayRef = useRef(null);
+
+  const days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
+
+  const workoutDayOfWeek = days[moment(workouts[0].date).toDate().getDay()];
 
   const handleClickExpand = () => {
     setIsExpanded(true);
@@ -37,6 +42,8 @@ export const WorkoutDay: React.FC<WorkoutDayProps> = (
     >
       <WorkoutDayDateBlock>
         <WorkoutDayNumber>{dayNumber}</WorkoutDayNumber>
+
+        <WorkoutDayOfWeek>{workoutDayOfWeek}</WorkoutDayOfWeek>
       </WorkoutDayDateBlock>
 
       {isExpanded
