@@ -6,8 +6,8 @@ import { WorkoutModalProps } from './types';
 import { WorkoutModalInput } from './styled';
 
 export const WorkoutModal: React.FC<WorkoutModalProps> = memo(({
-  isActive, onCancel, onOk, 
-  onChangeTrainPrice, onChangePeopleCount, 
+  isActive, onCancel, onOk, isEdit,
+  onChangeTrainPrice, onChangePeopleCount,
   handleChangeWorkoutDate, title, values,
 }) => (
     <Modal
@@ -37,7 +37,7 @@ export const WorkoutModal: React.FC<WorkoutModalProps> = memo(({
           shrink: true,
         }}
         margin='normal'
-        value={values.peopleCount}
+        defaultValue={isEdit && values.peopleCount}
         onChange={onChangePeopleCount}
       />
 
@@ -51,7 +51,7 @@ export const WorkoutModal: React.FC<WorkoutModalProps> = memo(({
           shrink: true,
         }}
         margin='normal'
-        value={values.trainPrice}
+        defaultValue={isEdit && values.trainPrice}
         onChange={onChangeTrainPrice}
       />
     </Modal>

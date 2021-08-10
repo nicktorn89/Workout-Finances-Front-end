@@ -134,6 +134,8 @@ class Main extends React.PureComponent<MainProps, MainState> {
       {
         peopleCount: 1,
         trainPrice: 0,
+        editingWorkoutId: null,
+        workoutDate: formatTimeForDateTimePicker(),
       },
     );
   }
@@ -174,7 +176,7 @@ class Main extends React.PureComponent<MainProps, MainState> {
   }
 
   public render = () => {
-    const { activeModal, workouts, peopleCount, operationType, trainPrice, workoutDate } = this.state;
+    const { activeModal, workouts, peopleCount, operationType, trainPrice, workoutDate, editingWorkoutId } = this.state;
     const { currentPart, currentMonth, currentYear } = this.props;
 
     workouts && divideMonth(workouts);
@@ -216,6 +218,7 @@ class Main extends React.PureComponent<MainProps, MainState> {
         <WorkoutModal
           isActive={activeModal}
           title='Запись тренировки'
+          isEdit={Boolean(editingWorkoutId)}
           values={{ peopleCount, trainPrice, workoutDate }}
           onCancel={this.toggleModal}
           onOk={operationType === 'create' ? this.createWorkout : this.editWorkout}
