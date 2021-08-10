@@ -154,8 +154,36 @@ reducer
   ).on(changePart,
     (state, payload) => {
       const { workoutsByTime } = state;
-      const newState = changeMonthPart(state, payload.isIncrement);
-      const newWorkouts = { workouts: workoutsByTime![newState.currentYear][newState.currentMonth][newState.currentPart] };
+      const { date } = payload;
+
+      console.log('date in action', date);
+
+      const currentPart = date.getDate() > 15 ? 'second' : 'first';
+      const currentMonth = date.getMonth();
+      const currentYear = date.getFullYear();
+
+      const newState: {
+        currentPart: 'first' | 'second';
+        currentMonth: number;
+        currentYear: number;
+      } = {
+        currentPart,
+        currentMonth,
+        currentYear,
+      };
+
+      const newWorkouts = (() => {
+        if (workoutsByTime
+          && workoutsByTime[currentYear]
+          && workoutsByTime[currentYear][currentMonth]
+          && workoutsByTime[currentYear][currentMonth][currentPart]
+        ) {
+          return workoutsByTime![currentYear][currentMonth][currentPart];
+        }
+        
+        return [];
+      })();
+
       return {
         ...state,
         ...newState,

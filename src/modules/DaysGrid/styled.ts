@@ -19,3 +19,12 @@ export const DaysGridContainer = styled.div<DaysGridContainerProps>`
 `;
 
 export const DayContainer = styled.div``;
+
+export const EmptyWorkoutsMessage = styled.h3`
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+
+  justify-content: center;
+  display: flex;
+  width: 100%;
+`;

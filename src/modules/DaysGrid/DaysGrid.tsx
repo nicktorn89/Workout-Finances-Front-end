@@ -4,7 +4,7 @@ import { useWindowSize } from 'src/hooks/useWindowSize';
 import moment from 'moment';
 
 import { DaysGridProps } from './types';
-import { DaysGridContainer } from './styled';
+import { DaysGridContainer, EmptyWorkoutsMessage } from './styled';
 import { WorkoutDayInfo } from 'src/components/WorkoutDay/types';
 
 export const DaysGrid: React.FC<DaysGridProps> = ({ workouts, editWorkout, deleteWorkout }) => {
@@ -39,6 +39,8 @@ export const DaysGrid: React.FC<DaysGridProps> = ({ workouts, editWorkout, delet
     .map(([key, value]) => value)
     .sort((a, b) => a!.dayNumber - b!.dayNumber);
 
+  console.log('days', days);
+
   const workoutCellSize = (() => {
     if (width && width >= 768) return 175;
 
@@ -70,8 +72,16 @@ export const DaysGrid: React.FC<DaysGridProps> = ({ workouts, editWorkout, delet
   );
 
   return (
-    <DaysGridContainer columnsCount={columnsCount} cellSize={workoutCellSize}>
-      {renderedDays}
-    </DaysGridContainer>
+    <>
+      {(days && days.length > 0)
+        ? (
+          <DaysGridContainer columnsCount={columnsCount} cellSize={workoutCellSize}>
+            {renderedDays}
+          </DaysGridContainer>
+        )
+        : (
+          <EmptyWorkoutsMessage>Не найдено записей за данный период</EmptyWorkoutsMessage>
+        )}
+    </>
   );
 };

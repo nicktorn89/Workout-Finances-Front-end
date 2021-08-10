@@ -177,10 +177,6 @@ class Main extends React.PureComponent<MainProps, MainState> {
     this.setState({ trainPrice: Number(value) });
   }
 
-  public handleSliderChange = (isIncrement: boolean) => (): void => {
-    this.props.changePart && this.props.changePart(isIncrement);
-  }
-
   public handleEdit = (id: string) => {
     this.toggleWithData(id);
   }
@@ -192,6 +188,10 @@ class Main extends React.PureComponent<MainProps, MainState> {
     }), () => {
       this.removeWorkout();
     });
+  }
+
+  public handleChangeRange = (date: Date) => {
+    this.props.changePart && this.props.changePart(date);
   }
 
   public render = () => {
@@ -219,7 +219,7 @@ class Main extends React.PureComponent<MainProps, MainState> {
           currentMonth={currentMonth}
           currentYear={currentYear}
           currentPart={currentPart}
-          onClick={this.handleSliderChange}
+          handleChangeRange={this.handleChangeRange}
         />
 
         <DaysGrid
