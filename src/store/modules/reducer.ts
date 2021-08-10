@@ -178,7 +178,7 @@ reducer
           && workoutsByTime[currentYear][currentMonth]
           && workoutsByTime[currentYear][currentMonth][currentPart]
         ) {
-          return workoutsByTime![currentYear][currentMonth][currentPart];
+          return workoutsByTime[currentYear][currentMonth][currentPart];
         }
         
         return [];
@@ -187,7 +187,7 @@ reducer
       return {
         ...state,
         ...newState,
-        ...newWorkouts,
+        workouts: newWorkouts,
         ...payload,
       };
     });

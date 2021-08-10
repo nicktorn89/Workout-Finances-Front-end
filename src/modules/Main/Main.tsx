@@ -50,7 +50,7 @@ class Main extends React.PureComponent<MainProps, MainState> {
 
     fetchWorkouts && fetchWorkouts();
 
-    workouts && this.setState({ workouts });
+    this.setState({ workouts });
   }
 
   public componentDidUpdate = (prevProps: MainProps) => {
