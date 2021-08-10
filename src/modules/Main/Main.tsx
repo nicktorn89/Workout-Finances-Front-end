@@ -74,7 +74,7 @@ class Main extends React.PureComponent<MainProps, MainState> {
     this.setState({
       trainPrice,
       peopleCount,
-      workoutDate: formatTimeForDateTimePicker(date),
+      workoutDate: formatTimeForDateTimePicker(new Date(date)),
 
       activeModal: !this.state.activeModal,
       editingWorkoutId: id,
