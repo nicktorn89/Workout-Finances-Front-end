@@ -7,6 +7,7 @@ export interface MainState {
 
   peopleCount: number;
   trainPrice: number;
+  workoutDate: string;
 
   idsToRemove: string[];
   workouts: WorkoutObject[];

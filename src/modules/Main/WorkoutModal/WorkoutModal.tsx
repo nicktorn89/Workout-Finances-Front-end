@@ -3,10 +3,12 @@ import { Modal } from 'src/components';
 import { checkIsEqual } from 'src/checkIsEqual';
 
 import { WorkoutModalProps } from './types';
-import { PeopleNumberInput, PeopleNumberLabel, TrainPriceInput, TrainPriceLabel } from './styled';
+import { WorkoutModalInput } from './styled';
 
 export const WorkoutModal: React.FC<WorkoutModalProps> = memo(({
-  isActive, onCancel, onOk, onChangeTrainPrice, onChangePeopleCount, title, values,
+  isActive, onCancel, onOk, 
+  onChangeTrainPrice, onChangePeopleCount, 
+  handleChangeWorkoutDate, title, values,
 }) => (
     <Modal
       isActive={isActive}
@@ -14,13 +16,23 @@ export const WorkoutModal: React.FC<WorkoutModalProps> = memo(({
       onCancel={onCancel}
       onOk={onOk}
     >
-      <PeopleNumberLabel>Кол-во человек</PeopleNumberLabel>
+      <WorkoutModalInput
+        id='workout-datetime'
+        label='Дата тренировки'
+        type='datetime-local'
+        defaultValue={values.workoutDate}
+        onChange={handleChangeWorkoutDate}
+        InputLabelProps={{
+          shrink: true,
+        }}
+      />
 
-      <PeopleNumberInput
+      <WorkoutModalInput
         id='people-number'
         min={1}
         max={Infinity}
         type='number'
+        label='Кол-во человек'
         InputLabelProps={{
           shrink: true,
         }}
@@ -29,13 +41,12 @@ export const WorkoutModal: React.FC<WorkoutModalProps> = memo(({
         onChange={onChangePeopleCount}
       />
 
-      <TrainPriceLabel>Доход с человека</TrainPriceLabel>
-
-      <TrainPriceInput
+      <WorkoutModalInput
         id='train-price'
         min={1}
         max={Infinity}
         type='number'
+        label='Доход с человека'
         InputLabelProps={{
           shrink: true,
         }}

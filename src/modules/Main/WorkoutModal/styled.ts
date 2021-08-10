@@ -1,10 +1,18 @@
 import styled from 'styled-components';
 import TextField from '@material-ui/core/TextField';
 
-export const PeopleNumberInput: any = styled(TextField)`
+export const WorkoutModalInput: any = styled(TextField)`
   &&& {
-    width: 70%;
+    &:first-of-type {
+      margin-top: 1rem;
+    }
+
+    width: 90%;
     padding: 0 1rem 0 0;
+
+    label {
+      font-size: 16px;
+    }
 
     div {
       font-size: 1.5rem;
@@ -22,25 +30,3 @@ export const PeopleNumberInput: any = styled(TextField)`
     }
   }
 `;
-
-export const TrainPriceInput: any = styled(PeopleNumberInput)``;
-
-export const PeopleNumberLabel = styled.label`
-  width: 30%;
-  text-align: center;
-  font-size: 1.4rem;
-
-  color: #322e2f;
-  font-family: 'Roboto', sans-serif;
-  margin-top: 10px;
-`;
-
-export const TrainPriceLabel = styled.label`
-  width: 30%;
-  text-align: center;
-  font-size: 1.4rem;
-
-  color: #322e2f;
-  font-family: 'Roboto', sans-serif;
-  margin-top: 10px;
-`; 
