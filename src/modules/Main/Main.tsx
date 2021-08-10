@@ -19,12 +19,24 @@ import {
 import { DaysGrid } from '../DaysGrid/DaysGrid';
 import { checkIsEqual } from 'src/checkIsEqual';
 
+const formatTimeForDateTimePicker = (currentDate: Date = new Date()) => {
+  const year = (currentDate.getFullYear()).toString();
+  const month = ((currentDate.getMonth()) + 101).toString().slice(-2);
+  const dateNumber = ((currentDate.getDate()) + 100).toString().slice(-2);
+
+  const hours = ((currentDate.getHours()) + 100).toString().slice(-2);
+  const mins = ((currentDate.getMinutes()) + 100).toString().slice(-2);
+
+  return `${year}-${month}-${dateNumber}T${hours}:${mins}`;
+};
+
 class Main extends React.PureComponent<MainProps, MainState> {
   public readonly state: MainState = {
     activeModal: false,
 
     peopleCount: 0,
     trainPrice: 0,
+    workoutDate: formatTimeForDateTimePicker(),
 
     workouts: [],
     idsToRemove: [],
@@ -57,11 +69,12 @@ class Main extends React.PureComponent<MainProps, MainState> {
   public toggleWithData = (id: string) => {
     const { workouts } = this.state;
 
-    const { trainPrice, peopleCount } = workouts.filter(({ _id: workoutId }) => workoutId === id)[0];
+    const { trainPrice, peopleCount, date } = workouts.filter(({ _id: workoutId }) => workoutId === id)[0];
 
     this.setState({
       trainPrice,
       peopleCount,
+      workoutDate: formatTimeForDateTimePicker(date),
 
       activeModal: !this.state.activeModal,
       editingWorkoutId: id,
@@ -71,11 +84,11 @@ class Main extends React.PureComponent<MainProps, MainState> {
 
   public createWorkout = () => {
     const { createWorkout } = this.props;
-    const { peopleCount, trainPrice } = this.state;
+    const { peopleCount, trainPrice, workoutDate } = this.state;
 
     const workoutObject = {
       peopleCount,
-      date: moment().toDate(),
+      date: moment(workoutDate).toDate(),
       price: countWorkout(peopleCount, trainPrice),
       isFree: false,
       isPersonal: false,
@@ -89,11 +102,11 @@ class Main extends React.PureComponent<MainProps, MainState> {
 
   public editWorkout = () => {
     const { editWorkout } = this.props;
-    const { peopleCount, editingWorkoutId, trainPrice } = this.state;
+    const { peopleCount, editingWorkoutId, trainPrice, workoutDate } = this.state;
 
     const workoutObject = {
       peopleCount,
-      date: moment().toDate(),
+      date: moment(workoutDate).toDate(),
       _id: editingWorkoutId as string,
       price: countWorkout(peopleCount, trainPrice),
       isFree: false,
@@ -123,6 +136,12 @@ class Main extends React.PureComponent<MainProps, MainState> {
         trainPrice: 0,
       },
     );
+  }
+
+  public handleChangeWorkoutDate = (e: Event) => {
+    const { value } = (e.target as HTMLInputElement);
+
+    this.setState({ workoutDate: value });
   }
 
   public changePeopleCount = (e: Event) => {
@@ -155,7 +174,7 @@ class Main extends React.PureComponent<MainProps, MainState> {
   }
 
   public render = () => {
-    const { activeModal, workouts, peopleCount, operationType, trainPrice } = this.state;
+    const { activeModal, workouts, peopleCount, operationType, trainPrice, workoutDate } = this.state;
     const { currentPart, currentMonth, currentYear } = this.props;
 
     workouts && divideMonth(workouts);
@@ -197,11 +216,12 @@ class Main extends React.PureComponent<MainProps, MainState> {
         <WorkoutModal
           isActive={activeModal}
           title='Запись тренировки'
-          values={{ peopleCount, trainPrice }}
+          values={{ peopleCount, trainPrice, workoutDate }}
           onCancel={this.toggleModal}
           onOk={operationType === 'create' ? this.createWorkout : this.editWorkout}
           onChangePeopleCount={this.changePeopleCount}
           onChangeTrainPrice={this.handleChangeTrainPrice}
+          handleChangeWorkoutDate={this.handleChangeWorkoutDate}
         />
       </MainContainer>
     );

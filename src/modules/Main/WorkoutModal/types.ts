@@ -6,10 +6,13 @@ export interface WorkoutModalProps {
   values: {
     trainPrice: number;
     peopleCount: number;
+    workoutDate: string;
   };
   
   onCancel: (e: React.MouseEvent) => void;
   onOk?: (e: React.MouseEvent) => void;
   onChangePeopleCount: (e: Event) => void;
   onChangeTrainPrice: (e: Event) => void;
+
+  handleChangeWorkoutDate: (e: Event) => void;
 }

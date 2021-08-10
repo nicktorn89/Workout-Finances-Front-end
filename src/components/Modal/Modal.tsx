@@ -12,6 +12,7 @@ const Modal: React.FC<ModalProps> = ({ isActive, onCancel, onOk, children, title
     aria-describedby='modal-description'
     className='modal-window'
     open={isActive}
+    onClose={onCancel}
   >
     <ModalContainer>
       <ModalHeader variant='h6' id='modal-title'>
