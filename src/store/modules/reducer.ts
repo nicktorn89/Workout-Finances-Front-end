@@ -39,6 +39,15 @@ export const reducer = (state = initialState, action: { type: string; payload?: 
       };
     }
 
+    case actionTypes.SET_WORKOUTS_BY_TIME: {
+      const { workoutsByTime } = action.payload;
+
+      return {
+        ...state,
+        workoutsByTime,
+      };
+    }
+
     case actionTypes.SET_WORKOUTS: {
       const { workouts } = action.payload;
 

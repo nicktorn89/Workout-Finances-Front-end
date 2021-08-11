@@ -4,11 +4,19 @@ import { WorkoutDTO, MainStore, WorkoutObject, PeriodData } from './types';
 import actionTypes from './actionTypes';
 import { divideMonth } from 'src/modules/Main/utils';
 import { ThunkDispatch } from 'redux-thunk';
+import { TimeObject } from 'src/modules/Main/types';
 
 const setWorkouts = (workouts: WorkoutObject[]) => ({
   type: actionTypes.SET_WORKOUTS,
   payload: {
     workouts,
+  },
+});
+
+const setAllWorkouts = (workoutsByTime: TimeObject) => ({
+  type: actionTypes.SET_WORKOUTS_BY_TIME,
+  payload: {
+    workoutsByTime,
   },
 });
 
@@ -37,6 +45,7 @@ export const fetchWorkouts = () =>
         trainPrice: Math.round(price / peopleCount),
       }));
 
+      dispatch(setAllWorkouts(allWorkouts.workoutsByTime));
       dispatch(setWorkouts(workouts));
 
       dispatch({
@@ -62,6 +71,7 @@ export const createWorkout = (workoutData: WorkoutDTO) =>
       workoutsByTime: divideMonth((updatedWorkouts as WorkoutObject[])),
     };
 
+    dispatch(setAllWorkouts(allWorkouts.workoutsByTime));
     dispatch(setWorkouts(allWorkouts.workoutsByTime[currentYear][currentMonth][currentPart]));
   };
 
@@ -77,6 +87,7 @@ export const editWorkout = (workoutData: WorkoutDTO) =>
       workoutsByTime: divideMonth((updatedWorkouts as WorkoutObject[])),
     };
 
+    dispatch(setAllWorkouts(allWorkouts.workoutsByTime));
     dispatch(setWorkouts(allWorkouts.workoutsByTime[currentYear][currentMonth][currentPart]));
   };
 
@@ -92,6 +103,7 @@ export const removeWorkout = (workouts: QueryObject) =>
       workoutsByTime: divideMonth((updatedWorkouts as WorkoutObject[])),
     };
 
+    dispatch(setAllWorkouts(allWorkouts.workoutsByTime));
     dispatch(setWorkouts(allWorkouts.workoutsByTime[currentYear][currentMonth][currentPart]));
   };
 
