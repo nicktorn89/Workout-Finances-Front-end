@@ -30,3 +30,9 @@ export type WorkoutObject = {
   isFree: boolean;
   _id?: string;
 };
+
+export interface PeriodData {
+  currentMonth: number;
+  currentYear: number;
+  currentPart: 'first' | 'second';
+}
