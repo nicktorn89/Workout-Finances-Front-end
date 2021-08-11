@@ -1,5 +1,6 @@
-import { WorkoutObject } from 'src/store/modules/types';
+import { WorkoutObject, WorkoutDTO } from 'src/store/modules/types';
 import { fetchWorkouts, createWorkout, removeWorkout, changePart, editWorkout } from 'src/store/modules/actions';
+import { QueryObject } from 'src/api/utils/types';
 
 export interface MainState {
   activeModal: boolean;
@@ -22,11 +23,11 @@ export interface MainProps {
   currentMonth: number;
   currentYear: number;
 
-  fetchWorkouts?: typeof fetchWorkouts;
-  createWorkout?: typeof createWorkout;
-  removeWorkout?: typeof removeWorkout;
-  editWorkout?: typeof editWorkout;
-  changePart?: typeof changePart;
+  fetchWorkouts: () => void;
+  createWorkout: (workoutData: WorkoutDTO) => void;
+  removeWorkout: (workouts: QueryObject) => void;
+  editWorkout: (workoutData: WorkoutDTO) => void;
+  changePart: (date: Date) => void;
 }
 
 export interface TimeObject {
