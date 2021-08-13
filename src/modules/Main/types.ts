@@ -29,18 +29,3 @@ export interface MainProps {
   editWorkout: (workoutData: WorkoutDTO) => void;
   changePart: (date: Date) => void;
 }
-
-export interface TimeObject {
-  [key: number]: {
-    [key: number]: { 
-      first: WorkoutObject[];
-      second: WorkoutObject[];
-    };
-  };
-}
-
-export type ChangedMonth = {
-  currentPart: 'first' | 'second',
-  currentMonth: number;
-  currentYear: number;
-};

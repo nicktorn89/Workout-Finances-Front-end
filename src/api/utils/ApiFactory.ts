@@ -1,7 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import * as R from 'ramda';
 import urljoin from 'url-join';
-import { Data, QueryObject, CustomOptions, Mock, FactoryOptions } from './types';
+import { QueryObject, CustomOptions, Mock, FactoryOptions } from './types';
 
 export class ApiFactory {
   public options: FactoryOptions;
@@ -110,9 +109,9 @@ class ApiService {
   }
 
   private parseQuery = (queryObject: QueryObject | undefined): string => {
-    if (R.isNil(queryObject)) return '';
+    if (!queryObject) return '';
 
-    const keysQueryObject = R.keys(queryObject) as string[];
+    const keysQueryObject = Object.keys(queryObject) as string[];
 
     return keysQueryObject.reduce((acc, key, index) => {
       const value = queryObject[key];
@@ -131,7 +130,7 @@ class ApiService {
 
   private createRequest = <D>(config: AxiosRequestConfig) => {
     return axios(config)
-      .then((res: AxiosResponse<D>) => R.path(['data'], res) as D)
+      .then((res: AxiosResponse<D>) => res.data as D)
       .catch((ex) => {
         console.warn('---', 'API exception', ex.response);
 

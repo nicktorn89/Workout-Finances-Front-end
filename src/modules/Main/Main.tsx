@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { fetchWorkouts, createWorkout, removeWorkout, editWorkout, changePart } from 'src/store/modules/actions';
 
-import { countWorkout, getIdFromIndexes, getWorkoutsPriceSum, divideMonth } from './utils';
+import { countWorkout, getIdFromIndexes, getWorkoutsPriceSum } from './utils';
 
 import { RootStore } from 'src/store/types';
 import Controls from './Controls/index';
@@ -201,8 +201,6 @@ class Main extends React.PureComponent<MainProps, MainState> {
       editingWorkoutId, shouldBeValidated,
     } = this.state;
     const { currentPart, currentMonth, currentYear } = this.props;
-
-    workouts && divideMonth(workouts);
 
     return (
       <MainContainer>
