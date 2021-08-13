@@ -70,17 +70,21 @@ class Main extends React.PureComponent<MainProps, MainState> {
   public toggleWithData = (id: string) => {
     const { workouts } = this.state;
 
-    const { trainPrice, peopleCount, date } = workouts.filter(({ _id: workoutId }) => workoutId === id)[0];
+    const workout = workouts.find(({ _id: workoutId }) => workoutId === id);
+    if (workout) {
+      const { trainPrice, peopleCount, date } = workout;
+      console.log('workout', workout);
 
-    this.setState({
-      trainPrice,
-      peopleCount,
-      workoutDate: formatTimeForDateTimePicker(new Date(date)),
+      this.setState({
+        trainPrice,
+        peopleCount,
+        workoutDate: formatTimeForDateTimePicker(new Date(date)),
 
-      activeModal: !this.state.activeModal,
-      editingWorkoutId: id,
-      operationType: 'editing',
-    });
+        activeModal: !this.state.activeModal,
+        editingWorkoutId: id,
+        operationType: 'editing',
+      });
+    }
   }
 
   public createWorkout = () => {
