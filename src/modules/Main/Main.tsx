@@ -71,13 +71,13 @@ class Main extends React.PureComponent<MainProps, MainState> {
     const { workouts } = this.state;
 
     const workout = workouts.find(({ _id: workoutId }) => workoutId === id);
+
     if (workout) {
-      const { trainPrice, peopleCount, date } = workout;
-      console.log('workout', workout);
+      const { price, peopleCount, date } = workout;
 
       this.setState({
-        trainPrice,
         peopleCount,
+        trainPrice: Math.round(price / peopleCount),
         workoutDate: formatTimeForDateTimePicker(new Date(date)),
 
         activeModal: !this.state.activeModal,
