@@ -23,7 +23,7 @@ export const fetchWorkouts = () =>
     try {
       const fetchedWorkouts = await Service
         .path('/workouts')
-        .get({ periodDate: JSON.stringify(getDateFromPeriod(currentYear, currentMonth, currentPart)) });
+        .get({ periodDate: getDateFromPeriod(currentYear, currentMonth, currentPart).toUTCString() });
 
       dispatch(setWorkouts(fetchedWorkouts));
 
@@ -44,7 +44,7 @@ export const createWorkout = (workoutData: WorkoutDTO) =>
 
     const workoutDataWithPeriod = {
       ...workoutData,
-      periodDate: JSON.stringify(getDateFromPeriod(currentYear, currentMonth, currentPart)),
+      periodDate: getDateFromPeriod(currentYear, currentMonth, currentPart).toUTCString(),
     };
 
     const updatedWorkouts = await Service
@@ -60,7 +60,7 @@ export const editWorkout = (workoutData: WorkoutDTO) =>
 
     const workoutDataWithPeriod = {
       ...workoutData,
-      periodDate: JSON.stringify(getDateFromPeriod(currentYear, currentMonth, currentPart)),
+      periodDate: getDateFromPeriod(currentYear, currentMonth, currentPart).toUTCString(),
     };
 
     const updatedWorkouts = await Service
@@ -76,7 +76,7 @@ export const removeWorkout = (workouts: QueryObject) =>
 
     const workoutDataWithPeriod = {
       ...workouts,
-      periodDate: JSON.stringify(getDateFromPeriod(currentYear, currentMonth, currentPart)),
+      periodDate: getDateFromPeriod(currentYear, currentMonth, currentPart).toUTCString() ,
     };
 
     const updatedWorkouts = await Service
