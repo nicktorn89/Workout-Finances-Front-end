@@ -1,15 +1,18 @@
-import React, { MouseEvent as ReactMouseEvent } from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect, useState, memo } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
-import { fetchWorkouts, createWorkout, removeWorkout, editWorkout, changePart } from 'src/store/modules/actions';
+import {
+  fetchWorkouts, createWorkout as createWorkoutAction,
+  removeWorkout as removeWorkoutAction,
+  editWorkout as editWorkoutAction,
+  changePart,
+} from 'src/store/modules/actions';
 
-import { countWorkout, getIdFromIndexes, getWorkoutsPriceSum } from './utils';
+import { countWorkout, getWorkoutsPriceSum } from './utils';
 
-import { RootStore } from 'src/store/types';
 import Controls from './Controls/index';
 import { WorkoutModal } from './WorkoutModal/WorkoutModal';
 
-import { MainState, MainProps } from './types';
 
 import { Slider } from 'src/components';
 import {
@@ -18,6 +21,8 @@ import {
 import { DaysGrid } from '../DaysGrid/DaysGrid';
 import { checkIsEqual } from 'src/checkIsEqual';
 import { CircularProgress } from '@material-ui/core';
+import { MainStore } from 'src/store/modules/types';
+import { ModalState } from './types';
 
 const formatTimeForDateTimePicker = (currentDate: Date = new Date()) => {
   const year = (currentDate.getFullYear()).toString();
@@ -30,255 +35,233 @@ const formatTimeForDateTimePicker = (currentDate: Date = new Date()) => {
   return `${year}-${month}-${dateNumber}T${hours}:${mins}`;
 };
 
-class Main extends React.PureComponent<MainProps, MainState> {
-  public readonly state: MainState = {
-    activeModal: false,
+const Main: React.FC<{}> = memo(() => {
+  const dispatch = useDispatch();
 
+  const workouts = useSelector(({ workouts }: MainStore) => workouts, checkIsEqual);
+  const isLoading = useSelector(({ isLoading }: MainStore) => isLoading);
+
+  const currentMonth = useSelector(({ currentMonth }: MainStore) => currentMonth);
+  const currentYear = useSelector(({ currentYear }: MainStore) => currentYear);
+  const currentPart = useSelector(({ currentPart }: MainStore) => currentPart);
+
+  const [idsToRemove, setIdsToRemove] = useState<string[]>([]);
+  const [modalState, setModalState] = useState<ModalState>({
+    activeModal: false,
     peopleCount: 0,
     trainPrice: 0,
-    workoutDate: formatTimeForDateTimePicker(),
-
     shouldBeValidated: false,
 
-    workouts: [],
-    idsToRemove: [],
-    operationType: 'create',
+    workoutDate: formatTimeForDateTimePicker(),
     editingWorkoutId: null,
-  };
+  });
 
-  public componentDidMount = () => {
-    const { fetchWorkouts, workoutsArray: workouts } = this.props;
-
+  useEffect(() => {
     fetchWorkouts && fetchWorkouts();
+  }, []);
 
-    this.setState({ workouts });
+  const setDefaultValues = () => {
+    setModalState((prev) => ({
+      ...prev,
+      peopleCount: 0,
+      trainPrice: 0,
+      editingWorkoutId: null,
+      workoutDate: formatTimeForDateTimePicker(),
+
+      shouldBeValidated: false,
+    }));
   };
 
-  public componentDidUpdate = (prevProps: MainProps) => {
-    if (!checkIsEqual(prevProps.workoutsArray, this.props.workoutsArray)) {
-      this.setState({ workouts: this.props.workoutsArray });
-    }
+  const toggleModal = () => {
+    setModalState((prev) => ({
+      ...prev,
+      activeModal: !prev.activeModal,
+    }));
+
+    setDefaultValues();
   };
 
-  public toggleModal = () => {
-    this.setState((state) => {
-      return { activeModal: !state.activeModal };
-    });
-
-    this.setDefaultValues();
-  };
-
-  public toggleWithData = (id: string) => {
-    const { workouts } = this.state;
-
+  const toggleWithData = (id: string) => {
     const workout = workouts.find(({ _id: workoutId }) => workoutId === id);
 
     if (workout) {
       const { price, peopleCount, date } = workout;
 
-      this.setState({
+      setModalState({
         peopleCount,
         trainPrice: Math.round(price / peopleCount),
         workoutDate: formatTimeForDateTimePicker(new Date(date)),
 
-        activeModal: !this.state.activeModal,
+        activeModal: true,
         editingWorkoutId: id,
-        operationType: 'editing',
+
+        shouldBeValidated: false,
       });
     }
   };
 
-  public createWorkout = () => {
-    const { createWorkout } = this.props;
-    const { peopleCount, trainPrice, workoutDate } = this.state;
+  const createWorkout = () => {
+    const { peopleCount, trainPrice, workoutDate } = modalState;
 
-    this.setState({
-      shouldBeValidated: true,
-    });
-
-    if (trainPrice <= 0 || peopleCount <= 0) {
-      console.error('Data not valid, please change fields');
-    } else {
-      const workoutObject = {
-        peopleCount,
-        date: moment(workoutDate).toDate(),
-        price: countWorkout(peopleCount, trainPrice),
-        isFree: false,
-        isPersonal: false,
-        isJumps: false,
-      };
-
-      createWorkout && createWorkout(workoutObject);
-
-      this.toggleModal();
-    }
-
-  };
-
-  public editWorkout = () => {
-    const { editWorkout } = this.props;
-    const { peopleCount, editingWorkoutId, trainPrice, workoutDate } = this.state;
-
-    this.setState({
-      shouldBeValidated: true,
-    });
-
-    if (trainPrice <= 0 || peopleCount <= 0) {
-      console.error('Data not valid, please change fields');
-    } else {
-      const workoutObject = {
-        peopleCount,
-        date: moment(workoutDate).toDate(),
-        _id: editingWorkoutId as string,
-        price: countWorkout(peopleCount, trainPrice),
-        isFree: false,
-        isPersonal: false,
-        isJumps: false,
-      };
-
-      editWorkout && editWorkout(workoutObject);
-
-      this.setState({ operationType: 'create' });
-
-      this.toggleModal();
-    }
-  };
-
-  public removeWorkout = () => {
-    const { removeWorkout } = this.props;
-    const { idsToRemove } = this.state;
-
-    removeWorkout && removeWorkout({ idArray: idsToRemove });
-    this.setState({ idsToRemove: [] });
-  };
-
-  public setDefaultValues = () => {
-    this.setState(
-      {
-        peopleCount: 0,
-        trainPrice: 0,
-        editingWorkoutId: null,
-        workoutDate: formatTimeForDateTimePicker(),
-        shouldBeValidated: false,
-      },
-    );
-  };
-
-  public handleChangeWorkoutDate = (e: Event) => {
-    const { value } = (e.target as HTMLInputElement);
-
-    this.setState({ workoutDate: value });
-  };
-
-  public changePeopleCount = (e: Event) => {
-    const { value } = (e.target as HTMLInputElement);
-
-    this.setState({ peopleCount: Number(value) });
-  };
-
-  public handleChangeTrainPrice = (e: Event) => {
-    const { value } = (e.target as HTMLInputElement);
-
-    this.setState({ trainPrice: Number(value) });
-  };
-
-  public handleEdit = (id: string) => {
-    this.toggleWithData(id);
-  };
-
-  public handleDelete = (id: string) => {
-    this.setState((prev) => ({
+    setModalState((prev) => ({
       ...prev,
-      idsToRemove: [...prev.idsToRemove, id],
-    }), () => {
-      this.removeWorkout();
-    });
+      shouldBeValidated: true,
+    }));
+
+    if (trainPrice <= 0 || peopleCount <= 0) {
+      console.error('Data not valid, please change fields');
+    } else {
+      const workoutObject = {
+        peopleCount,
+        date: moment(workoutDate).toDate(),
+        price: countWorkout(peopleCount, trainPrice),
+        isFree: false,
+        isPersonal: false,
+        isJumps: false,
+      };
+
+      dispatch(createWorkoutAction(workoutObject));
+
+      toggleModal();
+    }
   };
 
-  public handleChangeRange = (date: Date) => {
-    this.props.changePart && this.props.changePart(date);
+  const editWorkout = () => {
+    const { peopleCount, editingWorkoutId, trainPrice, workoutDate } = modalState;
+
+    setModalState((prev) => ({
+      ...prev,
+      shouldBeValidated: true,
+    }));
+
+    if (trainPrice <= 0 || peopleCount <= 0) {
+      console.error('Data not valid, please change fields');
+    } else {
+      if (editingWorkoutId) {
+        const workoutObject = {
+          peopleCount,
+          date: moment(workoutDate).toDate(),
+          _id: editingWorkoutId,
+          price: countWorkout(peopleCount, trainPrice),
+          isFree: false,
+          isPersonal: false,
+          isJumps: false,
+        };
+
+        dispatch(editWorkoutAction(workoutObject));
+      }
+
+      toggleModal();
+    }
   };
 
-  public render = () => {
-    const {
-      activeModal, workouts, peopleCount,
-      operationType, trainPrice, workoutDate,
-      editingWorkoutId, shouldBeValidated,
-    } = this.state;
-    const { currentPart, currentMonth, currentYear, isLoading } = this.props;
+  const removeWorkout = () => {
+    dispatch(removeWorkoutAction({ idArray: idsToRemove }));
 
-    return (
-      <MainContainer>
-        <MainHeader>
-          <HeaderTitle
-            component='h2'
-            variant='h2'
-          >
-            Workout Finances
-          </HeaderTitle>
-        </MainHeader>
-
-        <Slider
-          currentMonth={currentMonth}
-          currentYear={currentYear}
-          currentPart={currentPart}
-          handleChangeRange={this.handleChangeRange}
-        />
-
-        {
-          isLoading
-            ? (
-              <LoaderContainer>
-                <CircularProgress color='secondary' />
-              </LoaderContainer>
-            )
-            : (
-              <DaysGrid
-                workouts={workouts}
-                editWorkout={this.handleEdit}
-                deleteWorkout={this.handleDelete}
-              />
-            )
-        }
-
-        <Controls
-          toggleModal={this.toggleModal}
-        />
-
-        {workouts &&
-          <SumTitle>Всего: {getWorkoutsPriceSum(workouts)} &#8381;</SumTitle>
-        }
-
-        <WorkoutModal
-          isActive={activeModal}
-          title='Запись тренировки'
-          isEdit={Boolean(editingWorkoutId)}
-          shouldBeValidated={shouldBeValidated}
-          values={{ peopleCount, trainPrice, workoutDate }}
-          onCancel={this.toggleModal}
-          onOk={operationType === 'create' ? this.createWorkout : this.editWorkout}
-          onChangePeopleCount={this.changePeopleCount}
-          onChangeTrainPrice={this.handleChangeTrainPrice}
-          handleChangeWorkoutDate={this.handleChangeWorkoutDate}
-        />
-      </MainContainer>
-    );
+    setIdsToRemove([]);
   };
-}
-const mapDispatchToProps = {
-  fetchWorkouts,
-  createWorkout,
-  removeWorkout,
-  editWorkout,
-  changePart,
-};
 
-const mapStateToProps = ({ workouts, currentMonth, currentPart, currentYear, isLoading }: RootStore) => ({
-  currentPart,
-  currentMonth,
-  currentYear,
-  isLoading,
-  workoutsArray: workouts,
-});
+  const handleChangeWorkoutDate = (e: Event) => {
+    const { value } = (e.target as HTMLInputElement);
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+    setModalState((prev) => ({
+      ...prev,
+      workoutDate: value,
+    }));
+  };
+
+  const changePeopleCount = (e: Event) => {
+    const { value } = (e.target as HTMLInputElement);
+
+    setModalState((prev) => ({
+      ...prev,
+      peopleCount: Number(value),
+    }));
+  };
+
+  const handleChangeTrainPrice = (e: Event) => {
+    const { value } = (e.target as HTMLInputElement);
+
+    setModalState((prev) => ({
+      ...prev,
+      trainPrice: Number(value),
+    }));
+  };
+
+  const handleEdit = (id: string) => {
+    toggleWithData(id);
+  };
+
+  const handleDelete = (id: string) => {
+    setIdsToRemove((prev) => [...prev, id]);
+
+    removeWorkout();
+  };
+
+  const handleChangeRange = (date: Date) => {
+    dispatch(changePart(date));
+  };
+
+  return (
+    <MainContainer>
+      <MainHeader>
+        <HeaderTitle
+          component='h2'
+          variant='h2'
+        >
+          Workout Finances
+        </HeaderTitle>
+      </MainHeader>
+
+      <Slider
+        currentMonth={currentMonth}
+        currentYear={currentYear}
+        currentPart={currentPart}
+        handleChangeRange={handleChangeRange}
+      />
+
+      {
+        isLoading
+          ? (
+            <LoaderContainer>
+              <CircularProgress color='secondary' />
+            </LoaderContainer>
+          )
+          : (
+            <DaysGrid
+              workouts={workouts}
+              editWorkout={handleEdit}
+              deleteWorkout={handleDelete}
+            />
+          )
+      }
+
+      <Controls
+        toggleModal={toggleModal}
+      />
+
+      {workouts &&
+        <SumTitle>Всего: {getWorkoutsPriceSum(workouts)} &#8381;</SumTitle>
+      }
+
+      <WorkoutModal
+        isActive={modalState.activeModal}
+        title='Запись тренировки'
+        isEdit={Boolean(modalState.editingWorkoutId)}
+        shouldBeValidated={modalState.shouldBeValidated}
+        values={{
+          peopleCount: modalState.peopleCount,
+          trainPrice: modalState.trainPrice,
+          workoutDate: modalState.workoutDate,
+        }}
+        onCancel={toggleModal}
+        onOk={modalState.editingWorkoutId ? editWorkout : createWorkout}
+        onChangePeopleCount={changePeopleCount}
+        onChangeTrainPrice={handleChangeTrainPrice}
+        handleChangeWorkoutDate={handleChangeWorkoutDate}
+      />
+    </MainContainer>
+  );
+}, checkIsEqual);
+
+export default Main;
