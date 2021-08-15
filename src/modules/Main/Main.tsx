@@ -57,7 +57,7 @@ const Main: React.FC<{}> = memo(() => {
   });
 
   useEffect(() => {
-    fetchWorkouts && fetchWorkouts();
+    dispatch(fetchWorkouts());
   }, []);
 
   const setDefaultValues = () => {
