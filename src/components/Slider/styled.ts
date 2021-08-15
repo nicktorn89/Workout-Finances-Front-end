@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
-import { createMuiTheme } from '@material-ui/core';
+import { createTheme } from '@material-ui/core/styles';
 
 // @ts-nocheck
 
-export const materialTheme = createMuiTheme({
+export const materialTheme = createTheme({
   overrides: {
     // @ts-ignore
     MuiPickersToolbar: {
