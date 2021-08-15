@@ -57,3 +57,14 @@ export const MainContainer = styled.div`
 
   background: linear-gradient(45deg, #12a4d9, transparent);
 `;
+
+export const LoaderContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+  .MuiCircularProgress-colorSecondary {
+    color: #322e2f;
+  }
+`;

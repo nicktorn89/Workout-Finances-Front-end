@@ -13,10 +13,11 @@ import { MainState, MainProps } from './types';
 
 import { Slider } from 'src/components';
 import {
-  MainHeader, HeaderTitle, MainContainer, SumTitle,
+  MainHeader, HeaderTitle, MainContainer, SumTitle, LoaderContainer,
 } from './styled';
 import { DaysGrid } from '../DaysGrid/DaysGrid';
 import { checkIsEqual } from 'src/checkIsEqual';
+import { CircularProgress } from '@material-ui/core';
 
 const formatTimeForDateTimePicker = (currentDate: Date = new Date()) => {
   const year = (currentDate.getFullYear()).toString();
@@ -204,7 +205,7 @@ class Main extends React.PureComponent<MainProps, MainState> {
       operationType, trainPrice, workoutDate,
       editingWorkoutId, shouldBeValidated,
     } = this.state;
-    const { currentPart, currentMonth, currentYear } = this.props;
+    const { currentPart, currentMonth, currentYear, isLoading } = this.props;
 
     return (
       <MainContainer>
@@ -224,11 +225,21 @@ class Main extends React.PureComponent<MainProps, MainState> {
           handleChangeRange={this.handleChangeRange}
         />
 
-        <DaysGrid
-          workouts={workouts}
-          editWorkout={this.handleEdit}
-          deleteWorkout={this.handleDelete}
-        />
+        {
+          isLoading
+            ? (
+              <LoaderContainer>
+                <CircularProgress color='secondary' />
+              </LoaderContainer>
+            )
+            : (
+              <DaysGrid
+                workouts={workouts}
+                editWorkout={this.handleEdit}
+                deleteWorkout={this.handleDelete}
+              />
+            )
+        }
 
         <Controls
           toggleModal={this.toggleModal}
@@ -262,10 +273,11 @@ const mapDispatchToProps = {
   changePart,
 };
 
-const mapStateToProps = ({ workouts, currentMonth, currentPart, currentYear }: RootStore) => ({
+const mapStateToProps = ({ workouts, currentMonth, currentPart, currentYear, isLoading }: RootStore) => ({
   currentPart,
   currentMonth,
   currentYear,
+  isLoading,
   workoutsArray: workouts,
 });
 
