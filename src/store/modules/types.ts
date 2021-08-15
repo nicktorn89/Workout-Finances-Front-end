@@ -3,6 +3,8 @@ export interface MainStore {
   currentYear: number;
   currentMonth: number;
   currentPart: 'first' | 'second';
+
+  isLoading?: boolean;
 }
 
 export interface WorkoutDTO {

@@ -23,6 +23,8 @@ export interface MainProps {
   currentMonth: number;
   currentYear: number;
 
+  isLoading?: boolean;
+
   fetchWorkouts: () => void;
   createWorkout: (workoutData: WorkoutDTO) => void;
   removeWorkout: (workouts: QueryObject) => void;
