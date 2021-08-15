@@ -13,7 +13,7 @@ const setWorkouts = (workouts: WorkoutObject[]) => ({
 });
 
 export const fetchWorkouts = () =>
-  async (dispatch: ThunkDispatch<MainStore, {}, { type: string; error?: any; }>, getState: () => MainStore) => {
+  async (dispatch: ThunkDispatch<MainStore, {}, { type: string; error?: any }>, getState: () => MainStore) => {
     const { currentYear, currentMonth, currentPart } = getState();
 
     dispatch({
@@ -39,7 +39,7 @@ export const fetchWorkouts = () =>
   };
 
 export const createWorkout = (workoutData: WorkoutDTO) =>
-  async (dispatch: ThunkDispatch<MainStore, {}, { type: string; }>, getState: () => MainStore) => {
+  async (dispatch: ThunkDispatch<MainStore, {}, { type: string }>, getState: () => MainStore) => {
     const { currentYear, currentMonth, currentPart } = getState();
 
     const workoutDataWithPeriod = {
@@ -55,7 +55,7 @@ export const createWorkout = (workoutData: WorkoutDTO) =>
   };
 
 export const editWorkout = (workoutData: WorkoutDTO) =>
-  async (dispatch: ThunkDispatch<MainStore, {}, { type: string; }>, getState: () => MainStore) => {
+  async (dispatch: ThunkDispatch<MainStore, {}, { type: string }>, getState: () => MainStore) => {
     const { currentYear, currentMonth, currentPart } = getState();
 
     const workoutDataWithPeriod = {
@@ -71,7 +71,7 @@ export const editWorkout = (workoutData: WorkoutDTO) =>
   };
 
 export const removeWorkout = (workouts: QueryObject) =>
-  async (dispatch: ThunkDispatch<MainStore, {}, { type: string; }>, getState: () => MainStore) => {
+  async (dispatch: ThunkDispatch<MainStore, {}, { type: string }>, getState: () => MainStore) => {
     const { currentYear, currentMonth, currentPart } = getState();
 
     const workoutDataWithPeriod = {
@@ -91,7 +91,7 @@ export const setPeriod = (periodData: PeriodData) => ({
   payload: periodData,
 });
 
-export const changePart = (date: Date) => (dispatch: ThunkDispatch<MainStore, {}, { type: string; }>) => {
+export const changePart = (date: Date) => (dispatch: ThunkDispatch<MainStore, {}, { type: string }>) => {
   const currentPart = date.getDate() > 15 ? 'second' : 'first';
   const currentMonth = date.getMonth();
   const currentYear = date.getFullYear();

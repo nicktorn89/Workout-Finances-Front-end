@@ -11,7 +11,7 @@ const initialState: MainStore = {
     : 'second',
 };
 
-export const reducer = (state = initialState, action: { type: string; payload?: any, error?: any }) => {
+export const reducer = (state = initialState, action: { type: string; payload?: any; error?: any }) => {
   switch (action.type) {
     case actionTypes.FETCH_WORKOUTS_START: {
       return {

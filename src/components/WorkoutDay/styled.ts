@@ -8,7 +8,7 @@ export const WorkoutDayDateBlock = styled.div`
   flex-grow: 0;
 `;
 
-export const WorkoutDayContainer = styled.div<{ isExpanded: boolean; columnsCount: number; }>`
+export const WorkoutDayContainer = styled.div<{ isExpanded: boolean; columnsCount: number }>`
 	height: 100%;
 	width: 100%;
 

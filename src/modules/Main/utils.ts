@@ -10,13 +10,14 @@ export const createData = ({ date, peopleCount, price: salary, _id }: WorkoutObj
   return { id, date, peopleCount, salary, dataId: _id };
 };
 
-export const getIdFromIndexes = (indexes: number[], workouts: WorkoutObject[]): string[] => 
+export const getIdFromIndexes = (indexes: number[], workouts: WorkoutObject[]): string[] =>
+  // eslint-disable-next-line no-underscore-dangle
   [...indexes].map((index) => workouts[index]._id as string);
 
 export const getWorkoutsPriceSum = (workouts: WorkoutObject[]): number => {
   if (!workouts || workouts.length === 0) return 0;
 
   return workouts
-  .map(({ price }) => price)
-  .reduce((sum, current): number => sum + current);
+    .map(({ price }) => price)
+    .reduce((sum, current): number => sum + current);
 };

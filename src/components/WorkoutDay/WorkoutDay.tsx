@@ -11,7 +11,7 @@ import WorkoutsDayTable from './WorkoutsDayTable/index';
 
 export const WorkoutDay: React.FC<WorkoutDayProps> = (
   {
-    workouts, dayNumber, totalEarningsForDay, 
+    workouts, dayNumber, totalEarningsForDay,
     totalPeopleCount, columnsCount, editWorkout, deleteWorkout,
   },
 ) => {
@@ -59,7 +59,7 @@ export const WorkoutDay: React.FC<WorkoutDayProps> = (
             <WorkoutTotalPeopleCount>
               <WorkoutTotalPeopleCountLabel>
                 Кол-во человек
-          </WorkoutTotalPeopleCountLabel>
+              </WorkoutTotalPeopleCountLabel>
 
               <WorkoutTotalPeopleCountValue>
                 {totalPeopleCount}
@@ -69,11 +69,11 @@ export const WorkoutDay: React.FC<WorkoutDayProps> = (
             <WorkoutTotalEarnings>
               <WorkoutTotalEarningsLabel>
                 Итого:
-          </WorkoutTotalEarningsLabel>
+              </WorkoutTotalEarningsLabel>
 
               <WorkoutTotalEarningsValue>
                 {totalEarningsForDay} &#8381;
-          </WorkoutTotalEarningsValue>
+              </WorkoutTotalEarningsValue>
             </WorkoutTotalEarnings>
           </WorkoutTotalsBlock >
         )}

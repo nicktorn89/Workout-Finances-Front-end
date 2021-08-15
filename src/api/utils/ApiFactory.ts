@@ -16,7 +16,7 @@ export class ApiFactory {
       urljoin(apiUrl ? apiUrl : '', path),
       restOptions,
     );
-  }
+  };
 }
 
 class ApiService {
@@ -36,7 +36,7 @@ class ApiService {
       this.options,
       this.customOptions,
     );
-  }
+  };
 
   public addMock = (data: Mock): ApiService => {
     return new ApiService(
@@ -46,7 +46,7 @@ class ApiService {
         mock: data,
       },
     );
-  }
+  };
 
   public get = <R>(queryObject?: QueryObject) => {
     const queryStr: string = this.parseQuery(queryObject);
@@ -58,28 +58,28 @@ class ApiService {
 
     // @ts-ignore
     return this.createRequest<R>(config);
-  }
+  };
 
   public post = <R>(data: R) => {
     const config = this.createConfig('post', data);
 
     // @ts-ignore
     return this.createRequest<R>(config);
-  }
+  };
 
   public put = <R>(data: R) => {
     const config = this.createConfig('put', data);
 
     // @ts-ignore
     return this.createRequest<R>(config);
-  }
+  };
 
   public patch = <R>(data: R) => {
     const config = this.createConfig('patch', data);
 
     // @ts-ignore
     return this.createRequest<R>(config);
-  }
+  };
 
   public delete = <R>(queryObject: QueryObject) => {
     const queryStr = this.parseQuery(queryObject);
@@ -91,22 +91,22 @@ class ApiService {
 
     // @ts-ignore
     return this.createRequest<R>(config);
-  }
+  };
 
   private createConfig = <R>(method: string, data: R) => ({
     method,
     data,
     url: this.url,
     ...this.options,
-  })
+  });
 
   private createUrlWithQueryStr = (queryStr: string) => {
     return this.getUrl() + queryStr;
-  }
+  };
 
   private getUrl = () => {
     return this.url;
-  }
+  };
 
   private parseQuery = (queryObject: QueryObject | undefined): string => {
     if (!queryObject) return '';
@@ -126,7 +126,7 @@ class ApiService {
 
       return acc + valueStr;
     }, '?');
-  }
+  };
 
   private createRequest = <D>(config: AxiosRequestConfig) => {
     return axios(config)
@@ -136,5 +136,5 @@ class ApiService {
 
         return Promise.reject(ex);
       });
-  }
+  };
 }

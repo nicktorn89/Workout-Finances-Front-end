@@ -6,7 +6,7 @@ import Modal from '../Modal';
 describe('<Modal />', () => {
   const mockMouseEvent = (e: React.MouseEvent) => {};
 
-  const ModalComponent = shallow(<Modal isActive={true} onCancel={mockMouseEvent} />);
+  const ModalComponent = shallow(<Modal isActive onCancel={mockMouseEvent} />);
   const HiddenModalComponent = shallow(<Modal isActive={false} onCancel={mockMouseEvent} />);
   const ModalComponentToJson = shallowToJson(ModalComponent);
 
