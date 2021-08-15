@@ -45,7 +45,6 @@ const Main: React.FC<{}> = memo(() => {
   const currentYear = useSelector(({ currentYear }: MainStore) => currentYear);
   const currentPart = useSelector(({ currentPart }: MainStore) => currentPart);
 
-  const [idsToRemove, setIdsToRemove] = useState<string[]>([]);
   const [modalState, setModalState] = useState<ModalState>({
     activeModal: false,
     peopleCount: 0,
@@ -155,10 +154,8 @@ const Main: React.FC<{}> = memo(() => {
     }
   };
 
-  const removeWorkout = () => {
-    dispatch(removeWorkoutAction({ idArray: idsToRemove }));
-
-    setIdsToRemove([]);
+  const removeWorkout = (idArray: string[]) => {
+    dispatch(removeWorkoutAction({ idArray }));
   };
 
   const handleChangeWorkoutDate = (e: Event) => {
@@ -193,9 +190,7 @@ const Main: React.FC<{}> = memo(() => {
   };
 
   const handleDelete = (id: string) => {
-    setIdsToRemove((prev) => [...prev, id]);
-
-    removeWorkout();
+    removeWorkout([id]);
   };
 
   const handleChangeRange = (date: Date) => {
