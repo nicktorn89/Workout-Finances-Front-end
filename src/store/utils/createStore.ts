@@ -1,4 +1,4 @@
-import { Store as ReduxStore, Action, Middleware, applyMiddleware, createStore as _createStore } from 'redux';
+import { Store as ReduxStore, Middleware, applyMiddleware, createStore as _createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
@@ -10,7 +10,7 @@ function createStore(): ReduxStore<MainStore> {
     thunk,
   ];
 
-  return _createStore<MainStore, { type: string; error?: any; }, {}, {}>(
+  return _createStore<MainStore, { type: string; error?: any }, {}, {}>(
     reducer,
     composeWithDevTools(applyMiddleware(...middlewares)),
   );

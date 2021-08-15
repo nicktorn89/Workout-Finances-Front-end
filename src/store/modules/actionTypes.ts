@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 export default {
   SET_WORKOUTS: 'SET_WORKOUTS',
   SET_PERIOD: 'SET_PERIOD',

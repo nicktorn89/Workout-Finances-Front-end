@@ -14,4 +14,4 @@ export interface CustomOptions {
   mock?: Mock;
 }
 
-export interface Mock { [key: number]: string; }
+export interface Mock { [key: number]: string }

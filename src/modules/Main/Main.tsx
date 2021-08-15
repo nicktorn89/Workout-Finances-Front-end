@@ -52,13 +52,13 @@ class Main extends React.PureComponent<MainProps, MainState> {
     fetchWorkouts && fetchWorkouts();
 
     this.setState({ workouts });
-  }
+  };
 
   public componentDidUpdate = (prevProps: MainProps) => {
     if (!checkIsEqual(prevProps.workoutsArray, this.props.workoutsArray)) {
       this.setState({ workouts: this.props.workoutsArray });
     }
-  }
+  };
 
   public toggleModal = () => {
     this.setState((state) => {
@@ -66,7 +66,7 @@ class Main extends React.PureComponent<MainProps, MainState> {
     });
 
     this.setDefaultValues();
-  }
+  };
 
   public toggleWithData = (id: string) => {
     const { workouts } = this.state;
@@ -86,7 +86,7 @@ class Main extends React.PureComponent<MainProps, MainState> {
         operationType: 'editing',
       });
     }
-  }
+  };
 
   public createWorkout = () => {
     const { createWorkout } = this.props;
@@ -113,7 +113,7 @@ class Main extends React.PureComponent<MainProps, MainState> {
       this.toggleModal();
     }
 
-  }
+  };
 
   public editWorkout = () => {
     const { editWorkout } = this.props;
@@ -142,7 +142,7 @@ class Main extends React.PureComponent<MainProps, MainState> {
 
       this.toggleModal();
     }
-  }
+  };
 
   public removeWorkout = () => {
     const { removeWorkout } = this.props;
@@ -150,7 +150,7 @@ class Main extends React.PureComponent<MainProps, MainState> {
 
     removeWorkout && removeWorkout({ idArray: idsToRemove });
     this.setState({ idsToRemove: [] });
-  }
+  };
 
   public setDefaultValues = () => {
     this.setState(
@@ -162,29 +162,29 @@ class Main extends React.PureComponent<MainProps, MainState> {
         shouldBeValidated: false,
       },
     );
-  }
+  };
 
   public handleChangeWorkoutDate = (e: Event) => {
     const { value } = (e.target as HTMLInputElement);
 
     this.setState({ workoutDate: value });
-  }
+  };
 
   public changePeopleCount = (e: Event) => {
     const { value } = (e.target as HTMLInputElement);
 
     this.setState({ peopleCount: Number(value) });
-  }
+  };
 
   public handleChangeTrainPrice = (e: Event) => {
     const { value } = (e.target as HTMLInputElement);
 
     this.setState({ trainPrice: Number(value) });
-  }
+  };
 
   public handleEdit = (id: string) => {
     this.toggleWithData(id);
-  }
+  };
 
   public handleDelete = (id: string) => {
     this.setState((prev) => ({
@@ -193,11 +193,11 @@ class Main extends React.PureComponent<MainProps, MainState> {
     }), () => {
       this.removeWorkout();
     });
-  }
+  };
 
   public handleChangeRange = (date: Date) => {
     this.props.changePart && this.props.changePart(date);
-  }
+  };
 
   public render = () => {
     const {
@@ -263,7 +263,7 @@ class Main extends React.PureComponent<MainProps, MainState> {
         />
       </MainContainer>
     );
-  }
+  };
 }
 const mapDispatchToProps = {
   fetchWorkouts,
